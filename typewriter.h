@@ -304,11 +304,11 @@ char* Typewriter::get_text(){
 }
 
 char Typewriter::pop(){
-
-  contained_text.pop_back();
+  if(contained_text.size() > 0){
+    contained_text.pop_back();
+  }
   return ' ';
 }
-
 
 
 #endif
