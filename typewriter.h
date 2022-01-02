@@ -304,10 +304,13 @@ char* Typewriter::get_text(){
 }
 
 char Typewriter::pop(){
+  char back = *contained_text.end();
   if(contained_text.size() > 0){
     contained_text.pop_back();
   }
-  return ' ';
+  std::cout << back;
+  std::cout.flush();
+  return back;
 }
 
 
