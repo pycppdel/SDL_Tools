@@ -6,8 +6,8 @@
 *
 */
 
-#ifndef __TIMER__
-#define __TIMER__
+#ifndef __SDL_TOOLS_TIMER__
+#define __SDL_TOOLS_TIMER__
 
 #ifndef _SDL_H
 #include <SDL.h>
