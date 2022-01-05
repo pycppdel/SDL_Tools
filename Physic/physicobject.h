@@ -15,23 +15,39 @@
 
 #include <vector>
 
+#define STANDARD_SLOWDOWN 3.0F
+#define STANDARD_BOUNDARY_RIGHT 1920
+
 class PhysicObject{
 
 public:
+
+  enum Direction{
+
+    LEFT,
+    RIGHT,
+    UNDECIDED
+
+  };
 
   int x, y;
   float x_vel, y_vel; //velocity
   int size;
   int width, height;
-  int slow_down;
+  float slow_down;
   bool sliding;
   bool can_slide;
+
+  int boundary_left, boundary_right;
+  bool has_bounds;
+
+  Direction direction;
 
   std::vector<Hitbox> hitboxes;
 
   PhysicObject();
   PhysicObject(int, int, int, int, int);
-  PhysicObject(int, int, int, int, int, int);
+  PhysicObject(int, int, int, int, float, int);
   PhysicObject(int, int, int, int, int, bool);
 
   virtual ~PhysicObject();
@@ -43,6 +59,7 @@ public:
   virtual void move_right(int);
   virtual void draw(SDL_Renderer*)=0;
   virtual void on_frame();
+  virtual void set_boundaries(int, int);
 
 };
 
@@ -54,13 +71,18 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, int size){
   this->height = h;
   this->size = size;
 
-  slow_down = 0;
+  slow_down = STANDARD_SLOWDOWN;
   sliding = false;
   can_slide = true;
+  direction = UNDECIDED;
+  boundary_left = 0;
+  boundary_right = STANDARD_BOUNDARY_RIGHT;
+  has_bounds = true;
+
 
 }
 
-PhysicObject::PhysicObject(int x, int y, int w, int h, int slow, int size){
+PhysicObject::PhysicObject(int x, int y, int w, int h, float slow, int size){
 
   this->x = x;
   this->y = y;
@@ -69,9 +91,13 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, int slow, int size){
   this->slow_down = slow;
   this->size = size;
 
-  slow_down = 0;
+  slow_down = slow;
   sliding = false;
   can_slide = true;
+  direction = UNDECIDED;
+  boundary_left = 0;
+  boundary_right = STANDARD_BOUNDARY_RIGHT;
+  has_bounds = true;
 
 }
 
@@ -83,9 +109,13 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, int size, bool can_slide)
   this->height = h;
   this->size = size;
 
-  slow_down = 0;
+  slow_down = STANDARD_SLOWDOWN;
   sliding = false;
   this->can_slide = can_slide;
+  direction = UNDECIDED;
+  boundary_left = 0;
+  boundary_right = STANDARD_BOUNDARY_RIGHT;
+  has_bounds = true;
 
 }
 
@@ -133,13 +163,19 @@ void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
 void PhysicObject::move_left(int speed){
 
-  x_vel -= speed;
+  if(x > boundary_left){
+    x_vel -= speed;
+    direction = LEFT;
+  }
 
 }
 
 void PhysicObject::move_right(int speed){
 
-  x_vel += speed;
+  if(x+size < boundary_right){
+    x_vel += speed;
+    direction = RIGHT;
+  }
 
 }
 
@@ -150,19 +186,60 @@ void PhysicObject::on_frame(){
 
   if (!can_slide){
 
-    x_vel = y_vel = 0;
+    x_vel = 0;
 
   }
 
   else{
 
-    x_vel -= slow_down;
-    y_vel -= slow_down;
+      if (x+x_vel < boundary_left || x+x_vel+size > boundary_right){
 
-    x_vel = (x_vel < 0) ? 0 : x_vel;
-    y_vel = (y_vel < 0) ? 0 : y_vel;
+        x_vel = -x_vel;
+        switch(direction){
+
+          case LEFT:
+
+                direction = RIGHT;
+                break;
+          case RIGHT:
+                direction = LEFT;
+                break;
+        }
+
+      }
+
+    switch(direction){
+
+      case LEFT:
+
+            x_vel += slow_down;
+            if(x_vel >= 0){
+
+              x_vel = 0;
+              direction = UNDECIDED;
+
+
+            }
+            break;
+
+      case RIGHT:
+            x_vel -= slow_down;
+            if(x_vel <= 0){
+              x_vel = 0;
+              direction = UNDECIDED;
+            }
+            break;
+    }
+
 
   }
+
+}
+
+void PhysicObject::set_boundaries(int bn, int bf){
+
+  boundary_left = bn;
+  boundary_right = bf;
 
 }
 

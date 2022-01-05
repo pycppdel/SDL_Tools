@@ -37,7 +37,7 @@ Testbox::Testbox(int x, int y, int w, int h, int size, int ground, SDL_Color& cl
   pos.y = y;
   pos.w = w;
   pos.h = h;
-  gravity = 0.01F;
+  gravity = 0.5F;
 
 }
 
