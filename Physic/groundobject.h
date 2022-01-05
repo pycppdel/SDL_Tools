@@ -99,7 +99,7 @@ void GroundObject::fall(){
       }
       else{
         float pos_y_vel = (y_vel < 0) ? -y_vel : y_vel;
-        if(pos_y_vel < ground_bounce_stop){
+        if(pos_y_vel < ground_bounce_stop*gravity){
           y_vel = 0;
           is_falling = false;
           jumpheight = jumpsave = 0;
