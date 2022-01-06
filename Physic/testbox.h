@@ -14,6 +14,10 @@
 #include <groundobject.h>
 #endif
 
+#ifndef __SDL_TOOLS_CAMERA__
+#include <../camera.h>
+#endif
+
 class Testbox : public GroundObject{
 
 public:
@@ -53,8 +57,8 @@ void Testbox::draw(SDL_Renderer* r){
 void Testbox::on_frame(){
 
   GroundObject::on_frame();
-  pos.x = x;
-  pos.y = y;
+  pos.x = x-main_camera.x;
+  pos.y = y-main_camera.y;
   pos.w = width;
   pos.h = height;
 

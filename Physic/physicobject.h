@@ -163,7 +163,13 @@ void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
 void PhysicObject::move_left(int speed){
 
-  if(x > boundary_left){
+  if(has_bounds){
+    if(x > boundary_left){
+      x_vel -= speed;
+      direction = LEFT;
+    }
+  }
+  else{
     x_vel -= speed;
     direction = LEFT;
   }
@@ -172,7 +178,13 @@ void PhysicObject::move_left(int speed){
 
 void PhysicObject::move_right(int speed){
 
-  if(x+size < boundary_right){
+  if(has_bounds){
+    if(x+size < boundary_right){
+      x_vel += speed;
+      direction = RIGHT;
+    }
+  }
+  else{
     x_vel += speed;
     direction = RIGHT;
   }
@@ -192,20 +204,22 @@ void PhysicObject::on_frame(){
 
   else{
 
-      if (x+x_vel < boundary_left || x+x_vel+size > boundary_right){
+      if(!has_bounds){
+        if (x+x_vel < boundary_left || x+x_vel+size > boundary_right){
 
-        x_vel = -x_vel;
-        switch(direction){
+          x_vel = -x_vel;
+          switch(direction){
 
-          case LEFT:
+            case LEFT:
 
-                direction = RIGHT;
-                break;
-          case RIGHT:
-                direction = LEFT;
-                break;
+                  direction = RIGHT;
+                  break;
+            case RIGHT:
+                  direction = LEFT;
+                  break;
+          }
+
         }
-
       }
 
     switch(direction){
