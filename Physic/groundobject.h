@@ -66,8 +66,6 @@ void GroundObject::jump(float jumpinit){
 
   if(!can_jump)return;
 
-  jumpheight = jumpinit;
-  jumpsave = -jumpheight;
   y_vel = jumpinit;
   is_jumping = true;
   is_falling = true;
@@ -79,21 +77,14 @@ void GroundObject::fall(){
 
   if (!can_fall)return;
 
-  if(is_jumping){
-
-    jumpheight += gravity;
-
-
-  }
 
   if (is_falling){
 
-    if ((y+size+y_vel) > groundlevel){
+    if ((y+size+y_vel) >= groundlevel){
 
       if(!can_bounce){
         is_falling = false;
         is_jumping = false;
-        jumpheight = jumpsave = 0;
         y_vel = 0;
         y = groundlevel-size;
       }
@@ -102,28 +93,26 @@ void GroundObject::fall(){
         if(pos_y_vel < ground_bounce_stop*gravity){
           y_vel = 0;
           is_falling = false;
-          jumpheight = jumpsave = 0;
           y = groundlevel-size;
           is_jumping = false;
 
         }
         else{
           y_vel = -y_vel;
-          jumpheight = jumpsave = 0;
           is_jumping = false;
         }
       }
 
 
-    }
 
+    }
     else{
-
       y_vel += gravity;
-
     }
+
 
   }
+
 
 
 
