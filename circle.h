@@ -1,6 +1,6 @@
 /*
 *
-* Implemntation of a drawable circle in SDL
+* Implentation of a drawable circle in SDL
 *
 *
 */
