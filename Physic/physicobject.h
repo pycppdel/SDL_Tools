@@ -15,6 +15,7 @@
 
 #include <vector>
 
+//standard definitions for the slowdown and the standard boundary
 #define STANDARD_SLOWDOWN 3.0F
 #define STANDARD_BOUNDARY_RIGHT 1920
 
@@ -29,26 +30,33 @@ public:
     UNDECIDED
 
   };
-
+  //coordinates
   int x, y;
-  float x_vel, y_vel; //velocity
-  int size;
   int width, height;
+
+  float x_vel, y_vel; //velocity
+
+  //friction
   float slow_down;
+
+  //for sliding
   bool sliding;
   bool can_slide;
 
+  //boundaries
   int boundary_left, boundary_right;
   bool has_bounds;
 
+  //general direction
   Direction direction;
 
+  //all hitboxes from the object
   std::vector<Hitbox> hitboxes;
 
   PhysicObject();
-  PhysicObject(int, int, int, int, int);
-  PhysicObject(int, int, int, int, float, int);
-  PhysicObject(int, int, int, int, int, bool);
+  PhysicObject(int, int, int, int);
+  PhysicObject(int, int, int, int, float);
+  PhysicObject(int, int, int, int, bool);
 
   virtual ~PhysicObject();
 
@@ -63,13 +71,12 @@ public:
 
 };
 
-PhysicObject::PhysicObject(int x, int y, int w, int h, int size){
+PhysicObject::PhysicObject(int x, int y, int w, int h){
 
   this->x = x;
   this->y = y;
   this->width = w;
   this->height = h;
-  this->size = size;
 
   slow_down = STANDARD_SLOWDOWN;
   sliding = false;
@@ -82,14 +89,13 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, int size){
 
 }
 
-PhysicObject::PhysicObject(int x, int y, int w, int h, float slow, int size){
+PhysicObject::PhysicObject(int x, int y, int w, int h, float slow){
 
   this->x = x;
   this->y = y;
   this->width = w;
   this->height = h;
   this->slow_down = slow;
-  this->size = size;
 
   slow_down = slow;
   sliding = false;
@@ -101,13 +107,12 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, float slow, int size){
 
 }
 
-PhysicObject::PhysicObject(int x, int y, int w, int h, int size, bool can_slide){
+PhysicObject::PhysicObject(int x, int y, int w, int h, bool can_slide){
 
   this->x = x;
   this->y = y;
   this->width = w;
   this->height = h;
-  this->size = size;
 
   slow_down = STANDARD_SLOWDOWN;
   sliding = false;
@@ -121,6 +126,8 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, int size, bool can_slide)
 
 PhysicObject::~PhysicObject(){
 
+  //deletes all added and generated hitboxes
+
   for(Hitbox& h : hitboxes){
 
     h.~Hitbox();
@@ -133,6 +140,8 @@ PhysicObject::~PhysicObject(){
 }
 
 bool PhysicObject::hits(PhysicObject& other){
+
+  //goes in a loop inside all hitboxes and checks if they hit
 
   for(Hitbox& oh : other.hitboxes){
 
@@ -154,6 +163,8 @@ bool PhysicObject::hits(PhysicObject& other){
 
 void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
+  //adds a hitbox, that will be removed by the destructor
+
   Hitbox* neu = new Hitbox(x_, y_, w, h);
 
   hitboxes.push_back(*neu);
@@ -163,13 +174,22 @@ void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
 void PhysicObject::move_left(int speed){
 
+  //moves left
+
+  //if boundaries:
   if(has_bounds){
+
+    //if doesnt hit boundarie
     if(x > boundary_left){
+      //go left
       x_vel -= speed;
       direction = LEFT;
+
     }
+
   }
   else{
+    //no bound: go anyways
     x_vel -= speed;
     direction = LEFT;
   }
@@ -178,24 +198,41 @@ void PhysicObject::move_left(int speed){
 
 void PhysicObject::move_right(int speed){
 
+  //moves right
+
+  //if has bounds
   if(has_bounds){
+
+    //if hits the boundarie right
     if(x+size < boundary_right){
+
+      //move right
       x_vel += speed;
       direction = RIGHT;
+
     }
+
   }
+
   else{
+
+    //also move right
     x_vel += speed;
     direction = RIGHT;
+
   }
 
 }
 
 void PhysicObject::on_frame(){
 
+  //does everything that should be done on the frame
+
+  //change velocities
   x += static_cast<int>(x_vel);
   y += static_cast<int>(y_vel);
 
+  //if cant slide, set the x_velocity to zero
   if (!can_slide){
 
     x_vel = 0;
@@ -204,10 +241,18 @@ void PhysicObject::on_frame(){
 
   else{
 
-      if(!has_bounds){
+    //let it slide
+
+      //if boundaries available:
+      if(has_bounds){
+
+        //check if anything hits them
         if (x+x_vel < boundary_left || x+x_vel+size > boundary_right){
 
           x_vel = -x_vel;
+
+          //if it was hitting, invert the velocity and switch the direction
+
           switch(direction){
 
             case LEFT:
@@ -222,9 +267,15 @@ void PhysicObject::on_frame(){
         }
       }
 
+    //do standard stuff
+
     switch(direction){
 
+
       case LEFT:
+
+            //slow down, and check if you stopped
+            //if stopped, set x_vel to zero
 
             x_vel += slow_down;
             if(x_vel >= 0){
@@ -237,6 +288,10 @@ void PhysicObject::on_frame(){
             break;
 
       case RIGHT:
+
+      //slow down, and check if you stopped
+      //if stopped, set x_vel to zero
+
             x_vel -= slow_down;
             if(x_vel <= 0){
               x_vel = 0;
@@ -252,6 +307,9 @@ void PhysicObject::on_frame(){
 
 void PhysicObject::set_boundaries(int bn, int bf){
 
+  //sets the boundaries
+
+  has_bounds = true;
   boundary_left = bn;
   boundary_right = bf;
 

@@ -4,7 +4,10 @@
 #include <cstddef>
 #include <iostream>
 
+#include <cinttypes>
+
 #include "sdltools.h"
+#include "Physic/testbox.h"
 
 #ifdef __linux__
 #include <png.h>
@@ -28,21 +31,25 @@ bool quit;
 void init();
 void end();
 void draw();
-void frame();
+void frame(void*);
 
-void print(void* d){
-  std::cout << (char*)d << std::endl;
-}
+SDL_Color black = {0, 0, 0};
 
-Timer timer(1, print, (void*)"Hallo");
+Timer framer(60, frame, NULL);
+
+
+Testbox test(100, 100, 100, 100, 100, 800, black);
 
 int main(int argc, char** argv){
   init();
-
+  test.has_bounds = true;
+  test.set_boundaries(0, 800);
+  test.can_slide = false;
+  test.can_bounce = false;
   quit = false;
 
   while (!quit){
-  frame();
+  framer.tick();
   }
 
   end();
@@ -72,13 +79,31 @@ void draw(){
 
   SDL_RenderClear(renderer);
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
+  test.draw(renderer);
+  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
   SDL_RenderPresent(renderer);
 
 }
 
-void frame(){
-    timer.tick();
+void frame(void* n){
     SDL_PollEvent(&e);
+    uint8_t* state = const_cast<uint8_t*>(SDL_GetKeyboardState(NULL));
+
+    if (state[SDL_SCANCODE_LEFT]){
+
+      test.move_left(10);
+
+    }
+    if (state[SDL_SCANCODE_RIGHT]){
+
+      test.move_right(10);
+
+    }
+    if(state[SDL_SCANCODE_SPACE]){
+
+      test.jump(-20);
+
+    }
 
 
     switch(e.type){
@@ -86,7 +111,7 @@ void frame(){
       case SDL_QUIT:
                     quit = true;
                     break;
-
 		   }
-draw();
+       test.on_frame();
+        draw();
     }

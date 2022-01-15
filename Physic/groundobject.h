@@ -80,7 +80,7 @@ void GroundObject::fall(){
 
   if (is_falling){
 
-    if ((y+size+y_vel) >= groundlevel){
+    if ((y+size+y_vel) > groundlevel){
 
       if(!can_bounce){
         is_falling = false;
