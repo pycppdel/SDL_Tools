@@ -38,7 +38,7 @@ SDL_Color black = {0, 0, 0};
 Timer framer(60, frame, NULL);
 
 
-Testbox test(100, 100, 100, 100, 100, 800, black);
+Testbox test(100, 100, 100, 100, 800, black);
 
 int main(int argc, char** argv){
   init();
@@ -46,6 +46,8 @@ int main(int argc, char** argv){
   test.set_boundaries(0, 800);
   test.can_slide = false;
   test.can_bounce = false;
+  //test.can_wall_bounce = true;
+  test.can_slide = true;
   quit = false;
 
   while (!quit){

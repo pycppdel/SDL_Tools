@@ -43,6 +43,9 @@ public:
   bool sliding;
   bool can_slide;
 
+  //for wall bouncing
+  bool can_wall_bounce;
+
   //boundaries
   int boundary_left, boundary_right;
   bool has_bounds;
@@ -85,6 +88,7 @@ PhysicObject::PhysicObject(int x, int y, int w, int h){
   boundary_left = 0;
   boundary_right = STANDARD_BOUNDARY_RIGHT;
   has_bounds = true;
+  can_wall_bounce = false;
 
 
 }
@@ -104,6 +108,7 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, float slow){
   boundary_left = 0;
   boundary_right = STANDARD_BOUNDARY_RIGHT;
   has_bounds = true;
+  can_wall_bounce = false;
 
 }
 
@@ -121,6 +126,7 @@ PhysicObject::PhysicObject(int x, int y, int w, int h, bool can_slide){
   boundary_left = 0;
   boundary_right = STANDARD_BOUNDARY_RIGHT;
   has_bounds = true;
+  can_wall_bounce = false;
 
 }
 
@@ -204,7 +210,7 @@ void PhysicObject::move_right(int speed){
   if(has_bounds){
 
     //if hits the boundarie right
-    if(x+size < boundary_right){
+    if(x+width < boundary_right){
 
       //move right
       x_vel += speed;
@@ -247,21 +253,33 @@ void PhysicObject::on_frame(){
       if(has_bounds){
 
         //check if anything hits them
-        if (x+x_vel < boundary_left || x+x_vel+size > boundary_right){
+        if (x+x_vel < boundary_left || x+x_vel+width > boundary_right){
 
-          x_vel = -x_vel;
+          if (can_wall_bounce){
 
-          //if it was hitting, invert the velocity and switch the direction
+            //if can bounce, bounce
 
-          switch(direction){
+            x_vel = -x_vel;
 
-            case LEFT:
+            //if it was hitting, invert the velocity and switch the direction
 
-                  direction = RIGHT;
-                  break;
-            case RIGHT:
-                  direction = LEFT;
-                  break;
+            switch(direction){
+
+              case LEFT:
+
+                    direction = RIGHT;
+                    break;
+              case RIGHT:
+                    direction = LEFT;
+                    break;
+            }
+
+          }
+
+          else{
+
+            x_vel = 0;
+
           }
 
         }

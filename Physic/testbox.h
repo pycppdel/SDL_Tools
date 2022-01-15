@@ -25,7 +25,7 @@ public:
   SDL_Rect pos;
   SDL_Color c;
 
-  Testbox(int, int, int, int, int, int, SDL_Color&);
+  Testbox(int, int, int, int, int, SDL_Color&);
   Testbox();
   void draw(SDL_Renderer*);
 
@@ -34,7 +34,7 @@ public:
 };
 
 
-Testbox::Testbox(int x, int y, int w, int h, int size, int ground, SDL_Color& cl) : GroundObject(x, y, w, h, size, ground){
+Testbox::Testbox(int x, int y, int w, int h, int ground, SDL_Color& cl) : GroundObject(x, y, w, h, ground){
 
   c = cl;
   pos.x = x;

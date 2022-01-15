@@ -30,9 +30,9 @@ public:
   float gravity;
   int groundlevel;
 
-  GroundObject(int, int, int, int, int, int);
-  GroundObject(int, int, int, int, float, int, int);
-  GroundObject(int, int, int, int, int, int, bool);
+  GroundObject(int, int, int, int, int);
+  GroundObject(int, int, int, int, float, int);
+  GroundObject(int, int, int, int, int, bool);
 
   virtual void jump(float);
   virtual void fall();
@@ -41,21 +41,21 @@ public:
 
 };
 
-GroundObject::GroundObject(int x, int y, int h, int w, int size, int ground) : PhysicObject(x, y, w, h, size){
+GroundObject::GroundObject(int x, int y, int h, int w, int ground) : PhysicObject(x, y, w, h){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
 
 }
 
-GroundObject::GroundObject(int x, int y, int h, int w, float slow, int size, int ground) : PhysicObject(x, y, w, h, slow, size){
+GroundObject::GroundObject(int x, int y, int h, int w, float slow, int ground) : PhysicObject(x, y, w, h, slow){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
 
 }
 
-GroundObject::GroundObject(int x, int y, int h, int w, int size, int ground, bool can_slow) : PhysicObject(x, y, w, h, size, can_slow){
+GroundObject::GroundObject(int x, int y, int h, int w, int ground, bool can_slow) : PhysicObject(x, y, w, h, can_slow){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
@@ -80,20 +80,20 @@ void GroundObject::fall(){
 
   if (is_falling){
 
-    if ((y+size+y_vel) > groundlevel){
+    if ((y+height+y_vel) > groundlevel){
 
       if(!can_bounce){
         is_falling = false;
         is_jumping = false;
         y_vel = 0;
-        y = groundlevel-size;
+        y = groundlevel-height;
       }
       else{
         float pos_y_vel = (y_vel < 0) ? -y_vel : y_vel;
         if(pos_y_vel < ground_bounce_stop*gravity){
           y_vel = 0;
           is_falling = false;
-          y = groundlevel-size;
+          y = groundlevel-height;
           is_jumping = false;
 
         }
@@ -121,7 +121,7 @@ void GroundObject::fall(){
 
 void GroundObject::on_frame(){
 
-  if ((y+size) < groundlevel){
+  if ((y+height) < groundlevel){
 
     is_falling = true;
 
