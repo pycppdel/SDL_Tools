@@ -3,15 +3,15 @@
 #define __ALL_PHYSICS_IMPORT__
 
 #ifndef __SDL_TOOLS_PHYSIC_HITBOX__
-#include <hitbox.h>
+#include "hitbox.h"
 #endif
 
 #ifndef __SDL_TOOLS_PHYSIC_OBJECT__
-#include <physicobject.h>
+#include "physicobject.h"
 #endif
 
 #ifndef __SDL_TOOLS_PHYSIC_GROUNDOBJECT__
-#include <groundobject.h>
+#include "groundobject.h"
 #endif
 
 #endif

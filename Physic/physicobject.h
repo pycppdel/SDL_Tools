@@ -10,7 +10,7 @@
 #define __SDL_TOOLS_PHYSIC_OBJECT__
 
 #ifndef __SDL_TOOLS_PHYSIC_HITBOX__
-#include <hitbox.h>
+#include "hitbox.h"
 #endif
 
 #include <vector>

@@ -21,16 +21,17 @@ private:
 
   int fps;
   long int last_tick;
-  void (*function)();
+  void (*function)(void*);
+  void* data = NULL;
 
 public:
 
   Timer();
   Timer(int);
-  Timer(int, void (*f)());
+  Timer(int, void (*f)(void*), void*);
   virtual ~Timer();
 
-  void set_task(void (*task)());
+  void set_task(void (*task)(void*), void*);
   void change_fps(int);
   void tick();
 
@@ -52,10 +53,11 @@ Timer::Timer(int fps){
 
 }
 
-Timer::Timer(int fps, void (*f)()){
+Timer::Timer(int fps, void (*f)(void*), void* d){
 
   this->fps = fps;
   this->function = f;
+  this->data = d;
   last_tick = 0;
 
 }
@@ -65,9 +67,10 @@ Timer::~Timer(){
 
 }
 
-void Timer::set_task(void (*t)()){
+void Timer::set_task(void (*t)(void*), void* d){
 
   this->function = t;
+  this->data = d;
 
 }
 
@@ -85,7 +88,7 @@ void Timer::tick(){
 
     last_tick = now;
     if (function != NULL){
-      function();
+      function(data);
     }
 
   }

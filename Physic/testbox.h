@@ -11,11 +11,11 @@
 #define __SDL_TOOLS_PHYSIC_TESTBOX__
 
 #ifndef __SDL_TOOLS_PHYSIC_GROUNDOBJECT__
-#include <groundobject.h>
+#include "groundobject.h"
 #endif
 
 #ifndef __SDL_TOOLS_CAMERA__
-#include <../camera.h>
+#include "../camera.h"
 #endif
 
 class Testbox : public GroundObject{

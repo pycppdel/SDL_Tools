@@ -10,7 +10,7 @@
 #define __SDL_TOOLS_PHYSIC_GROUNDOBJECT__
 
 #ifndef __SDL_TOOLS_PHYSIC_OBJECT__
-#include <physicobject.h>
+#include "physicobject.h"
 #endif
 
 #define GROUND_OBJECT_STANDARD_GRAVITY 0.1F
