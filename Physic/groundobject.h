@@ -27,9 +27,7 @@ public:
   bool is_jumping;
   bool can_jump = true;
 
-  //falling variables
-  bool is_falling = false;
-  bool can_fall = true;
+
 
   //for ground bouncing
   bool can_bounce = true;
@@ -96,7 +94,7 @@ void GroundObject::jump(float jumpinit){
 void GroundObject::fall(){
 
   //if cannot fall, nothing will be changed
-  if (!can_fall)return;
+  if (!can_fall || is_standing_on_something)return;
 
 
   if (is_falling){

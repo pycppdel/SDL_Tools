@@ -279,6 +279,12 @@ void Object_Engine::interact(){
     int coming_from_above_y = 0;
     bool got_coming_from_above = false;
 
+    //variables for lowest box
+    int coming_from_below_y = 0;
+    bool got_coming_from_below = false;
+
+    bool standing = false;
+
     for (PhysicObject* counter : loaded_objects){
 
 
@@ -294,16 +300,60 @@ void Object_Engine::interact(){
 
           //iterating through all hitboxes
 
+          //checking for hit from above
           //checking for a above hit
+
+          if((!got_coming_from_below || (counter_h.y < coming_from_below_y))
+              &&
+              //must be higher before, but passed through after
+              (((obj_h.y+obj_h.height) < (counter_h.y)
+              &&
+              //now must be below
+              (obj_h.y+obj_h.height+obj->y_vel > (counter_h.y)))
+
+            )
+              &&
+              //x_value is aligned
+              ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+              ||
+              ((obj_h.x+obj_h.width >= counter_h.x) && (obj_h.x+obj_h.width <= counter_h.x+counter_h.width)))
+
+          ){
+
+            got_coming_from_below = true;
+            coming_from_below_y = counter_h.y;
+            obj->y = counter_h.y-obj_h.height;
+            obj->is_standing_on_something = true;
+            obj->y_vel = 0;
+            standing = true;
+
+
+          }
+
+
+
 
           if(
 
             (!got_coming_from_above || (counter_h.y+counter_h.height > got_coming_from_above))
             //checking if before was below, but now is above
+            &&
+            (obj_h.y) >= (counter_h.y+counter_h.height)
+            &&
+            (obj_h.y+obj->y_vel) < (counter_h.y+counter_h.height)
+            &&
+            //inside object
+            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
 
 
 
           ){
+
+            //set y vel opposite
+            obj->y = (counter_h.y+counter_h.height);
+            obj->y_vel = -obj->y_vel;
 
           }
 
@@ -338,11 +388,7 @@ void Object_Engine::interact(){
               obj->x_vel = 0;
 
             }
-            else{
 
-              obj->x_vel = -obj->x_vel;
-
-            }
 
 
           }
@@ -388,7 +434,7 @@ void Object_Engine::interact(){
 
               //if didnt crash
 
-              
+
 
             }
             else{
@@ -405,7 +451,10 @@ void Object_Engine::interact(){
 
       }
 
+
     }
+
+
 
   }
 

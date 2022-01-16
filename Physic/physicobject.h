@@ -53,6 +53,13 @@ public:
   //for wall bouncing
   bool can_wall_bounce;
 
+  //falling variables
+  bool is_falling = false;
+  bool can_fall = true;
+
+  //standing variable
+  bool is_standing_on_something = false;
+
   //boundaries
   int boundary_left, boundary_right;
   bool has_bounds;
@@ -230,8 +237,7 @@ void PhysicObject::update_hitboxes(){
     box.x = box.x_save+x;
     box.y = y-box.y_save;
 
-    std::cout << box.x << " " << box.y << std::endl;
-    std::cout.flush();
+
 
   }
 

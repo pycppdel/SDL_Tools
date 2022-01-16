@@ -69,6 +69,7 @@ int main(int argc, char** argv){
 
   while (!quit){
   framer.tick();
+
   /*
   std::cout << test.hitboxes[1].x << std::endl;
   std::cout.flush();
