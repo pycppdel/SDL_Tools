@@ -150,14 +150,16 @@ PhysicObject::~PhysicObject(){
 
   //deletes all added and generated hitboxes
 
+
   for(Hitbox& h : hitboxes){
 
     h.~Hitbox();
-    delete &h;
+    //consider deleting
 
   }
 
   hitboxes.clear();
+
 
 }
 
@@ -222,12 +224,14 @@ void PhysicObject::move_left(int speed){
 void PhysicObject::update_hitboxes(){
 
   //updates hitboxes according to the last x and y they have been
+
   for (Hitbox& box : hitboxes){
 
     box.x += (x-last_x);
     box.y += (y-last_y);
 
   }
+
 
 
 }

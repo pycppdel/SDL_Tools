@@ -53,6 +53,8 @@ int main(int argc, char** argv){
   test.add_hitbox(0, 0, 100, 100);
   quit = false;
 
+  standard_engine.register_object((PhysicObject*)&test);
+
   while (!quit){
   framer.tick();
   }
@@ -92,12 +94,6 @@ void draw(){
 
 void frame(void* n){
 
-    for(Hitbox& box: test.hitboxes){
-
-      std::cout << box.x << " " << box.y << std::endl;
-      std::cout.flush();
-
-    }
     SDL_PollEvent(&e);
     uint8_t* state = const_cast<uint8_t*>(SDL_GetKeyboardState(NULL));
 
@@ -116,6 +112,15 @@ void frame(void* n){
       test.jump(-20);
 
     }
+
+    if (state[SDL_SCANCODE_A]){
+
+      
+
+
+    }
+
+    standard_engine.interact();
 
 
 
