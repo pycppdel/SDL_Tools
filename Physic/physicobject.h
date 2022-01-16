@@ -22,6 +22,13 @@
 
 class PhysicObject{
 
+private:
+
+  //integers for updating the hitbox
+  int last_x, last_y;
+  //for updating hitboxes
+  virtual void update_hitboxes();
+
 public:
 
   enum Direction{
@@ -51,6 +58,9 @@ public:
   int boundary_left, boundary_right;
   bool has_bounds;
 
+  //ghost object means that other objects can pass through it without interacting
+  bool ghost_object = false;
+
   //general direction
   Direction direction;
 
@@ -76,6 +86,7 @@ public:
   virtual void draw(SDL_Renderer*)=0;
   virtual void on_frame();
   virtual void set_boundaries(int, int);
+
 
 };
 
@@ -175,8 +186,9 @@ bool PhysicObject::hits(PhysicObject& other){
 void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
   //adds a hitbox, that will be removed by the destructor
+  //hitbox will be offset from the x and y coordinate of the object
 
-  Hitbox* neu = new Hitbox(x_, y_, w, h);
+  Hitbox* neu = new Hitbox(x+x_, y+y_, w, h);
 
   hitboxes.push_back(*neu);
 
@@ -204,6 +216,19 @@ void PhysicObject::move_left(int speed){
     x_vel -= speed;
     direction = LEFT;
   }
+
+}
+
+void PhysicObject::update_hitboxes(){
+
+  //updates hitboxes according to the last x and y they have been
+  for (Hitbox& box : hitboxes){
+
+    box.x += (x-last_x);
+    box.y += (y-last_y);
+
+  }
+
 
 }
 
@@ -236,6 +261,10 @@ void PhysicObject::move_right(int speed){
 }
 
 void PhysicObject::on_frame(){
+
+  //setting the last x and y position for update
+  last_x = x;
+  last_y = y;
 
   //does everything that should be done on the frame
 
@@ -339,6 +368,9 @@ void PhysicObject::on_frame(){
 
 
   }
+
+  //updating the hitboxes
+  update_hitboxes();
 
 }
 

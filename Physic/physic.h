@@ -14,4 +14,8 @@
 #include "groundobject.h"
 #endif
 
+#ifndef __SDL_TOOLS_OBJECT_ENGINE__
+#include "object_engine.h"
+#endif
+
 #endif
