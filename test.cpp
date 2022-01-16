@@ -34,11 +34,14 @@ void draw();
 void frame(void*);
 
 SDL_Color black = {0, 0, 0};
+SDL_Color blue = {0, 0, 0xFF};
 
 Timer framer(60, frame, NULL);
 
 
 Testbox test(100, 100, 100, 100, 800, black);
+
+Testbox Block(200, 500, 200, 200, 800, blue);
 
 int main(int argc, char** argv){
   init();
@@ -51,9 +54,15 @@ int main(int argc, char** argv){
   //test.can_wall_bounce = true;
   test.can_slide = true;
   test.add_hitbox(0, 0, 100, 100);
+
+  Block.can_fall = false;
   quit = false;
 
   standard_engine.register_object((PhysicObject*)&test);
+  standard_engine.register_object((PhysicObject*)&Block);
+
+  standard_engine.load_object((PhysicObject*)&test);
+  standard_engine.load_object((PhysicObject*)&Block);
 
   while (!quit){
   framer.tick();
@@ -86,7 +95,9 @@ void draw(){
 
   SDL_RenderClear(renderer);
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
-  test.draw(renderer);
+
+  standard_engine.draw_loaded_objects(renderer);
+
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
   SDL_RenderPresent(renderer);
 
@@ -115,7 +126,7 @@ void frame(void* n){
 
     if (state[SDL_SCANCODE_A]){
 
-      
+
 
 
     }
@@ -130,6 +141,6 @@ void frame(void* n){
                     quit = true;
                     break;
 		   }
-       test.on_frame();
+       standard_engine.on_frame_loaded_objects();
         draw();
     }

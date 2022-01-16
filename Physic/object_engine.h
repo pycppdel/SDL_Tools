@@ -68,6 +68,10 @@ public:
   std::vector<PhysicObject*>* get_loaded_objects();
   std::vector<PhysicObject*>* get_unloaded_objects();
 
+  //for drawing and framing loaded objects
+  void draw_loaded_objects(SDL_Renderer*);
+  void on_frame_loaded_objects();
+
 
 };
 
@@ -235,12 +239,40 @@ void Object_Engine::unload_object(PhysicObject* obj){
 
 }
 
+void Object_Engine::draw_loaded_objects(SDL_Renderer* rend){
+
+  for (PhysicObject* obj : loaded_objects){
+
+    obj->draw(rend);
+
+  }
+
+}
+
+void Object_Engine::on_frame_loaded_objects(){
+
+  for(PhysicObject* obj : loaded_objects){
+
+    obj->on_frame();
+
+  }
+
+}
+
 void Object_Engine::interact(){
 
   //lets all the objects interact
 
   for(PhysicObject* obj : loaded_objects){
-    obj->x_vel = 0;
+
+    for (PhysicObject* counter : loaded_objects){
+
+      //search for counterparts
+
+      //if there is a ghost object, ignore it
+      if (counter->ghost_object) {continue;}
+
+    }
 
   }
 }
