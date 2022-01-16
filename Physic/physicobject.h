@@ -24,8 +24,7 @@ class PhysicObject{
 
 private:
 
-  //integers for updating the hitbox
-  int last_x, last_y;
+
   //for updating hitboxes
   virtual void update_hitboxes();
 
@@ -227,8 +226,8 @@ void PhysicObject::update_hitboxes(){
 
   for (Hitbox& box : hitboxes){
 
-    box.x += (x-last_x);
-    box.y += (y-last_y);
+    box.x += (x-box.x);
+    box.y += (y-box.y);
 
   }
 
@@ -266,9 +265,6 @@ void PhysicObject::move_right(int speed){
 
 void PhysicObject::on_frame(){
 
-  //setting the last x and y position for update
-  last_x = x;
-  last_y = y;
 
   //does everything that should be done on the frame
 

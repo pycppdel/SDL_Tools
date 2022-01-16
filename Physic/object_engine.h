@@ -145,6 +145,8 @@ void Object_Engine::change_camera(Camera* cam){
 
 void Object_Engine::register_object(PhysicObject* obj){
 
+  //if the object was registered before, unregister it
+  unregister_object(obj);
   unloaded_objects.push_back(obj);
 
 }
@@ -265,16 +267,101 @@ void Object_Engine::interact(){
 
   for(PhysicObject* obj : loaded_objects){
 
+    //variables for saving the last position point
+    int coming_from_left_hit_x = 0;
+    bool got_coming_from_left = false; //if hit previously
+
+    //variables for coming from right
+    int coming_from_right_hit = 0;
+    bool got_coming_from_right = false;
+
     for (PhysicObject* counter : loaded_objects){
 
-      //search for counterparts
 
       //if there is a ghost object, ignore it
-      if (counter->ghost_object) {continue;}
+      if (counter->ghost_object || counter==obj) {continue;}
+      //search for counterparts
+      //to check a left hit: find the smallest element that is on the right side of the object
+
+      //comparing the hitboxes
+      for (Hitbox& obj_h : obj->hitboxes){
+
+        for(Hitbox& counter_h : counter->hitboxes){
+
+          //iterating through all hitboxes
+
+          //checking for a right hit
+
+          if(
+
+            // hits right if: hitbox is greater, of counter part is the rightest, and y value corresponds
+true
+
+          )
+          {
+
+          }
+
+
+          //checking for a hit while walking right
+          if (
+
+            //if is first smaller, but after adding the x_velocity it hits the object, and the object is smallest, and y value corresponds: left hit
+
+            //checking if smallest
+            (!got_coming_from_left || (counter_h.x < coming_from_left_hit_x))
+            &&
+            //if first smaller, but after moving bigger
+            (obj_h.x + obj_h.width) <= (counter_h.x)
+            &&
+            //after bigger
+            (obj_h.x +  obj_h.width + obj->x_vel) > (counter_h.x)
+            &&
+            //and inside the object
+            ((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
+            ||
+            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
+            )
+
+
+          )
+          {
+
+            //then: left hitting
+
+            got_coming_from_left = true;
+            coming_from_left_hit_x = counter_h.x;
+
+            //now, is left hitting:
+            //if cant wall bounce: stop
+            if (!obj->can_wall_bounce){
+
+              //stop the object
+              obj->x_vel = 0;
+
+              //if didnt crash
+
+              if (obj->x+obj->width < counter->x){
+
+
+                obj->x = counter->x-obj->width;
+
+              }
+
+            }
+
+
+          }
+
+
+        }
+
+      }
 
     }
 
   }
+
 }
 
 void Object_Engine::load_unload(){

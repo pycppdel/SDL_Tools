@@ -56,6 +56,7 @@ int main(int argc, char** argv){
   test.add_hitbox(0, 0, 100, 100);
 
   Block.can_fall = false;
+  Block.add_hitbox(0, 0, 200, 200);
   quit = false;
 
   standard_engine.register_object((PhysicObject*)&test);
