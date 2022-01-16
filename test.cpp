@@ -49,11 +49,14 @@ int main(int argc, char** argv){
   test.set_boundaries(0, 800);
   test.can_slide = false;
   test.can_bounce = false;
+  test.can_wall_bounce = false;
   test.has_max_speed = true;
   test.max_speed = 10;
   //test.can_wall_bounce = true;
   test.can_slide = true;
+  //test.add_hitbox(0, 0, 100, 100);
   test.add_hitbox(0, 0, 100, 100);
+  test.add_hitbox(100, 100, 100, 100);
 
   Block.can_fall = false;
   Block.add_hitbox(0, 0, 200, 200);
@@ -67,7 +70,12 @@ int main(int argc, char** argv){
 
   while (!quit){
   framer.tick();
-  }
+  /*
+  std::cout << test.hitboxes[1].x << std::endl;
+  std::cout.flush();
+
+  */
+}
 
   end();
 

@@ -188,8 +188,9 @@ void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 
   //adds a hitbox, that will be removed by the destructor
   //hitbox will be offset from the x and y coordinate of the object
-
-  Hitbox* neu = new Hitbox(x+x_, y+y_, w, h);
+  Hitbox* neu = new Hitbox(x_, y_, w, h);
+  neu->x += x;
+  neu->y -= y;
 
   hitboxes.push_back(*neu);
 
@@ -223,11 +224,11 @@ void PhysicObject::move_left(int speed){
 void PhysicObject::update_hitboxes(){
 
   //updates hitboxes according to the last x and y they have been
-
   for (Hitbox& box : hitboxes){
 
-    box.x += (x-box.x);
-    box.y += (y-box.y);
+
+    box.x = box.x_save+x;
+    box.y = y-box.y_save;
 
   }
 
@@ -366,6 +367,23 @@ void PhysicObject::on_frame(){
             break;
     }
 
+
+  }
+
+  if (x_vel == 0){
+
+    direction = UNDECIDED;
+
+
+  }
+  else if(x_vel < 0){
+
+    direction = LEFT;
+
+  }
+  else if(x_vel > 0){
+
+    direction = RIGHT;
 
   }
 

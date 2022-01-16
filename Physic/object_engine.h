@@ -272,8 +272,12 @@ void Object_Engine::interact(){
     bool got_coming_from_left = false; //if hit previously
 
     //variables for coming from right
-    int coming_from_right_hit = 0;
+    int coming_from_right_hit_x = 0;
     bool got_coming_from_right = false;
+
+    //variables for lowest box
+    int coming_from_above_y = 0;
+    bool got_coming_from_above = false;
 
     for (PhysicObject* counter : loaded_objects){
 
@@ -290,17 +294,60 @@ void Object_Engine::interact(){
 
           //iterating through all hitboxes
 
+          //checking for a above hit
+
+          if(
+
+            (!got_coming_from_above || (counter_h.y+counter_h.height > got_coming_from_above))
+            //checking if before was below, but now is above
+            
+
+
+          ){
+
+          }
+
           //checking for a right hit
 
           if(
 
-            // hits right if: hitbox is greater, of counter part is the rightest, and y value corresponds
-true
 
+            // hits right if: hitbox is greater, of counter part is the rightest, and y value corresponds
+            (!got_coming_from_right || (counter_h.x+counter_h.width > coming_from_right_hit_x))
+            &&
+            //if first bigger, but after moving smaller
+            (obj_h.x) > (counter_h.x+counter_h.width)
+            &&
+            //smaller:
+            (obj_h.x + obj->x_vel) < (counter_h.x+counter_h.width)
+            &&
+            //and inside the object
+            ((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
+            ||
+            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
+            )
           )
           {
 
+            got_coming_from_right = true;
+            coming_from_right_hit_x = counter_h.x+counter_h.width;
+
+            if (!obj->can_wall_bounce){
+
+              //stop the object
+              obj->x_vel = 0;
+
+            }
+            else{
+
+              obj->x_vel = -obj->x_vel;
+
+            }
+
+
           }
+
+
 
 
           //checking for a hit while walking right
@@ -341,12 +388,17 @@ true
 
               //if didnt crash
 
-              if (obj->x+obj->width < counter->x){
+              if (obj_h.x+obj_h.width < counter_h.x){
 
 
-                obj->x = counter->x-obj->width;
+                obj->x = (obj_h.x-obj->x+counter_h.x - obj_h.width);
 
               }
+
+            }
+            else{
+
+              obj->x_vel = -obj->x_vel;
 
             }
 

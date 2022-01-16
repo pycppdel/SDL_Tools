@@ -13,6 +13,7 @@ class Hitbox{
 
 public:
 
+  int x_save, y_save, width_save, height_save;
   int x, y, width, height;
 
   Hitbox(int, int, int, int);
@@ -26,10 +27,13 @@ public:
 Hitbox::Hitbox(int x, int y, int w, int h){
 
   this->x = x;
+  x_save = x;
   this->y = y;
+  y_save = y;
   this->width = w;
+  width_save = w;
   this->height = h;
-
+  height_save = h;
 }
 
 Hitbox::~Hitbox(){
