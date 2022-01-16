@@ -13,27 +13,43 @@
 #include "physicobject.h"
 #endif
 
-#define GROUND_OBJECT_STANDARD_GRAVITY 0.1F
+
+//standard definitions
+#define GROUND_OBJECT_STANDARD_GRAVITY 1.1F
 #define STANDARD_GROUND_BOUNCE_STOP 8.0F
+#define STANDARD_MAX_FALL_SPEED 60.0F
 
 class GroundObject : public PhysicObject{
 
 public:
 
+  //jumping vairables
   bool is_jumping;
   bool can_jump = true;
+
+  //falling variables
   bool is_falling = false;
   bool can_fall = true;
+
+  //for ground bouncing
   bool can_bounce = true;
   float ground_bounce_stop = STANDARD_GROUND_BOUNCE_STOP;
-  float jumpheight, jumpsave;
+
+  //definition variables for ground
   float gravity;
   int groundlevel;
+
+  //max speed for falling
+  float has_max_fall_speed = false;
+  float max_fall_speed = STANDARD_MAX_FALL_SPEED;
+
+  //constructors
 
   GroundObject(int, int, int, int, int);
   GroundObject(int, int, int, int, float, int);
   GroundObject(int, int, int, int, int, bool);
 
+  //object can jump and fall and does its stuff on the frame
   virtual void jump(float);
   virtual void fall();
 
@@ -66,7 +82,11 @@ void GroundObject::jump(float jumpinit){
 
   if(!can_jump)return;
 
-  y_vel = jumpinit;
+  //checking for negativity
+
+  y_vel = (jumpinit > 0) ? -jumpinit : jumpinit;
+
+  //setting status variables
   is_jumping = true;
   is_falling = true;
 
@@ -75,22 +95,32 @@ void GroundObject::jump(float jumpinit){
 
 void GroundObject::fall(){
 
+  //if cannot fall, nothing will be changed
   if (!can_fall)return;
 
 
   if (is_falling){
 
+    //if falling
+
+    //if hit the ground
     if ((y+height+y_vel) > groundlevel){
 
+      //if cant bounce: stop, reset status variables and be still
       if(!can_bounce){
+
         is_falling = false;
         is_jumping = false;
         y_vel = 0;
         y = groundlevel-height;
+
       }
       else{
+        //if can bounce, bounce opposite
         float pos_y_vel = (y_vel < 0) ? -y_vel : y_vel;
+
         if(pos_y_vel < ground_bounce_stop*gravity){
+          //if bouncing critical point was reached: stop bouncing
           y_vel = 0;
           is_falling = false;
           y = groundlevel-height;
@@ -98,8 +128,10 @@ void GroundObject::fall(){
 
         }
         else{
+          //else bounce, but not jumping
           y_vel = -y_vel;
           is_jumping = false;
+
         }
       }
 
@@ -107,7 +139,16 @@ void GroundObject::fall(){
 
     }
     else{
+      //else: change y_vel
       y_vel += gravity;
+    }
+
+    //checking for faster acceleration than planned:
+
+    if (has_max_fall_speed && y_vel > max_fall_speed){
+
+      y_vel = max_fall_speed;
+
     }
 
 
@@ -121,22 +162,23 @@ void GroundObject::fall(){
 
 void GroundObject::on_frame(){
 
+  //if is in the air: fall
   if ((y+height) < groundlevel){
 
     is_falling = true;
 
   }
 
+  //if falling: call defined method
   if (is_falling){
 
     fall();
 
   }
+
+  //do x_vel stuff
   PhysicObject::on_frame();
 
-  if(!is_jumping){
-    y_vel = (y_vel <= 0) ? 0 : y_vel;
-  }
 
 }
 

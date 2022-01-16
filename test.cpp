@@ -46,6 +46,8 @@ int main(int argc, char** argv){
   test.set_boundaries(0, 800);
   test.can_slide = false;
   test.can_bounce = false;
+  test.has_max_speed = true;
+  test.max_speed = 10;
   //test.can_wall_bounce = true;
   test.can_slide = true;
   quit = false;
@@ -93,12 +95,12 @@ void frame(void* n){
 
     if (state[SDL_SCANCODE_LEFT]){
 
-      test.move_left(10);
+      test.move_left(5);
 
     }
     if (state[SDL_SCANCODE_RIGHT]){
 
-      test.move_right(10);
+      test.move_right(5);
 
     }
     if(state[SDL_SCANCODE_SPACE]){
@@ -106,6 +108,7 @@ void frame(void* n){
       test.jump(-20);
 
     }
+
 
 
     switch(e.type){

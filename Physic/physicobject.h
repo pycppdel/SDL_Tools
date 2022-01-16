@@ -18,6 +18,7 @@
 //standard definitions for the slowdown and the standard boundary
 #define STANDARD_SLOWDOWN 3.0F
 #define STANDARD_BOUNDARY_RIGHT 1920
+#define STANDARD_MAX_SPEED 100.0F
 
 class PhysicObject{
 
@@ -52,6 +53,10 @@ public:
 
   //general direction
   Direction direction;
+
+  //defines the maximum of speed the object can reach, or if it has a max speed
+  bool has_max_speed = false;
+  float max_speed = STANDARD_MAX_SPEED;
 
   //all hitboxes from the object
   std::vector<Hitbox> hitboxes;
@@ -234,7 +239,21 @@ void PhysicObject::on_frame(){
 
   //does everything that should be done on the frame
 
-  //change velocities
+  //change velocities, depending on max_speed
+  if (has_max_speed){
+
+    //max speed was broken: fixing by adjusting
+    if(x_vel > 0 && x_vel > max_speed){
+      x_vel = max_speed;
+    }
+    else if(x_vel < 0 && x_vel < -max_speed){
+
+      x_vel = -max_speed;
+
+    }
+
+  }
+
   x += static_cast<int>(x_vel);
   y += static_cast<int>(y_vel);
 
