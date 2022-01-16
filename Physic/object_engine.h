@@ -300,7 +300,7 @@ void Object_Engine::interact(){
 
             (!got_coming_from_above || (counter_h.y+counter_h.height > got_coming_from_above))
             //checking if before was below, but now is above
-            
+
 
 
           ){
@@ -388,12 +388,7 @@ void Object_Engine::interact(){
 
               //if didnt crash
 
-              if (obj_h.x+obj_h.width < counter_h.x){
-
-
-                obj->x = (obj_h.x-obj->x+counter_h.x - obj_h.width);
-
-              }
+              
 
             }
             else{

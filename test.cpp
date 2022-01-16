@@ -41,7 +41,7 @@ Timer framer(60, frame, NULL);
 
 Testbox test(100, 100, 100, 100, 800, black);
 
-Testbox Block(200, 500, 200, 200, 800, blue);
+Testbox Block(400, 500, 200, 200, 800, blue);
 
 int main(int argc, char** argv){
   init();
@@ -56,7 +56,6 @@ int main(int argc, char** argv){
   test.can_slide = true;
   //test.add_hitbox(0, 0, 100, 100);
   test.add_hitbox(0, 0, 100, 100);
-  test.add_hitbox(100, 100, 100, 100);
 
   Block.can_fall = false;
   Block.add_hitbox(0, 0, 200, 200);

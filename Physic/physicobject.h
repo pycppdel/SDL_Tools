@@ -230,6 +230,9 @@ void PhysicObject::update_hitboxes(){
     box.x = box.x_save+x;
     box.y = y-box.y_save;
 
+    std::cout << box.x << " " << box.y << std::endl;
+    std::cout.flush();
+
   }
 
 
