@@ -19,6 +19,10 @@
 #include "../camera.h"
 #endif
 
+#ifndef __SDL_TOOLS_PHYSIC_HITBOX__
+#include "hitbox.h"
+#endif
+
 #define NO_TOLERANCE 0
 
 class Object_Engine{
@@ -258,6 +262,11 @@ void Object_Engine::on_frame_loaded_objects(){
     obj->on_frame();
 
   }
+  for(PhysicObject* obj : unloaded_objects){
+
+    obj->on_frame();
+
+  }
 
 }
 
@@ -329,7 +338,7 @@ void Object_Engine::interact(){
           if(
             (!got_coming_from_below || (counter_h.y <= coming_from_below_y))
             &&
-            ((obj_h.y+obj_h.height == counter_h.y))
+            ((obj_h.y+obj_h.height == counter_h.y ))
             &&
             ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
             ||
@@ -343,9 +352,6 @@ void Object_Engine::interact(){
               obj->y = (counter_h.y-obj_h.height);
               obj->is_standing_on_something = true;
 
-            }
-            else{
-              obj->is_standing_on_something = false;
             }
             got_coming_from_below = true;
             coming_from_below_y = counter_h.y;
@@ -468,13 +474,6 @@ void Object_Engine::interact(){
 
           }
 
-          if (!got_coming_from_left && !got_coming_from_right && !got_coming_from_below && !got_coming_from_above
-          && obj_h.hits(counter_h)
-        ){
-          obj->x_vel = 0;
-
-        }
-
 
         }
 
@@ -495,6 +494,53 @@ void Object_Engine::interact(){
 void Object_Engine::load_unload(){
 
   //loads or unloads according to the camera position
+
+  //if the object isnt inside the camera view, it needs to be unloaded
+  for(int i = 0; i < loaded_objects.size(); i++){
+
+    PhysicObject* obj = loaded_objects[i];
+
+    if (
+
+      obj->x+obj->width <= camera_ptr->x
+      ||
+      obj->x >= camera_ptr->x+camera_ptr->w
+      ||
+      obj->y+obj->height <= camera_ptr->y
+      ||
+      obj->y >= camera_ptr->y+camera_ptr->h
+
+    ){
+
+      unload_object(obj);
+
+    }
+
+  }
+
+
+  for(int i = 0; i < unloaded_objects.size(); i++){
+
+    PhysicObject* obj = unloaded_objects[i];
+
+    if (
+
+      !(obj->x+obj->width <= camera_ptr->x
+      ||
+      obj->x >= camera_ptr->x+camera_ptr->w
+      ||
+      obj->y+obj->height <= camera_ptr->y
+      ||
+      obj->y >= camera_ptr->y+camera_ptr->h)
+
+    ){
+
+      load_object(obj);
+
+
+    }
+
+  }
 
 }
 

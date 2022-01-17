@@ -73,6 +73,9 @@ public:
 
   //general direction
   Direction direction;
+  //boolean for going
+  bool can_go_right = true;
+  bool can_go_left = true;
 
   //defines the maximum of speed the object can reach, or if it has a max speed
   bool has_max_speed = false;
@@ -96,6 +99,8 @@ public:
   virtual void draw(SDL_Renderer*)=0;
   virtual void on_frame();
   virtual void set_boundaries(int, int);
+
+  virtual void if_loaded_on_frame(); //only gets called if the object is loaded onto the screen
 
 
 };
@@ -211,7 +216,7 @@ void PhysicObject::add_hitbox(int x_, int y_, int w, int h){
 void PhysicObject::move_left(int speed){
 
   //moves left
-
+  if(!can_go_left)return;
   //if boundaries:
   if(has_bounds){
 
@@ -252,7 +257,7 @@ void PhysicObject::update_hitboxes(){
 void PhysicObject::move_right(int speed){
 
   //moves right
-
+  if(!can_go_right)return;
   //if has bounds
   if(has_bounds){
 
@@ -412,6 +417,13 @@ void PhysicObject::set_boundaries(int bn, int bf){
   has_bounds = true;
   boundary_left = bn;
   boundary_right = bf;
+
+}
+
+void PhysicObject::if_loaded_on_frame(){
+
+
+  //needs to be overwritten
 
 }
 
