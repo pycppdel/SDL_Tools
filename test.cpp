@@ -42,7 +42,7 @@ SDL_Color blue = {0, 0, 0xFF};
 Timer framer(60, frame, NULL);
 
 
-Testbox test(10, 10, 10, 10, 800, black);
+Testbox test(10, 0, 10, 10, 800, black);
 
 Testbox Block(300, 100, 100, 100, 800, blue);
 Testbox Block2(700, 350, 100, 200, 800, blue);
@@ -50,7 +50,7 @@ Testbox Block3(200, 200, 30, 50, 800, blue);
 Testbox Block4(100, 500, 300, 100, 800, blue);
 Testbox Block5(400, 500, 200, 200, 800, blue);
 
-Testbox boxes[400];
+Testbox boxes[1000];
 int b_counter = 0;
 
 void add_block(int x, int y, int w, int h){
@@ -89,6 +89,7 @@ int main(int argc, char** argv){
   test.gravity = .2F;
   //test.add_hitbox(0, 0, 100, 100);
   test.add_hitbox(0, 0, 10, 10);
+  test.y = -1000;
 
   Block.can_fall = false;
   Block.add_hitbox(0, 0, 100, 100);
@@ -112,9 +113,9 @@ int main(int argc, char** argv){
   standard_engine.load_object((PhysicObject*)&Block4);
   standard_engine.load_object((PhysicObject*)&Block3);
 
-  for(int i = 0; i < 200; i++){
+  for(int i = 0; i < 1000; i++){
 
-    add_block(rand()%800, -(rand()%10000), rand()%100+50, rand()%100+20);
+    add_block(rand()%800, -(rand()%100000), rand()%100+50, rand()%100+20);
 
   }
 
