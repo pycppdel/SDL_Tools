@@ -53,6 +53,10 @@ public:
   //for wall bouncing
   bool can_wall_bounce;
 
+  //jumping vairables
+  bool is_jumping;
+  bool can_jump = true;
+
   //falling variables
   bool is_falling = false;
   bool can_fall = true;

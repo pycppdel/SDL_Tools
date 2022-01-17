@@ -23,10 +23,7 @@ class GroundObject : public PhysicObject{
 
 public:
 
-  //jumping vairables
-  bool is_jumping;
-  bool can_jump = true;
-
+  
 
 
   //for ground bouncing
@@ -94,7 +91,7 @@ void GroundObject::jump(float jumpinit){
 void GroundObject::fall(){
 
   //if cannot fall, nothing will be changed
-  if (!can_fall || is_standing_on_something)return;
+  if (!can_fall)return;
 
 
   if (is_falling){
@@ -161,7 +158,7 @@ void GroundObject::fall(){
 void GroundObject::on_frame(){
 
   //if is in the air: fall
-  if ((y+height) < groundlevel){
+  if ((y+height) < groundlevel && !is_standing_on_something){
 
     is_falling = true;
 

@@ -301,32 +301,54 @@ void Object_Engine::interact(){
           //iterating through all hitboxes
 
           //checking for hit from above
-          //checking for a above hit
 
-          if((!got_coming_from_below || (counter_h.y < coming_from_below_y))
-              &&
-              //must be higher before, but passed through after
-              (((obj_h.y+obj_h.height) < (counter_h.y)
-              &&
-              //now must be below
-              (obj_h.y+obj_h.height+obj->y_vel > (counter_h.y)))
+          //checking for above hit
 
+          if(
+            (!got_coming_from_below || (counter_h.y < coming_from_below_y))
+            &&
+            (
+            (obj_h.y+obj_h.height < counter_h.y && obj_h.y+obj_h.height+obj->y_vel > counter_h.y)
             )
-              &&
-              //x_value is aligned
-              ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
-              ||
-              ((obj_h.x+obj_h.width >= counter_h.x) && (obj_h.x+obj_h.width <= counter_h.x+counter_h.width)))
+            &&
+            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
 
           ){
 
-            got_coming_from_below = true;
-            coming_from_below_y = counter_h.y;
-            obj->y = counter_h.y-obj_h.height;
             obj->is_standing_on_something = true;
             obj->y_vel = 0;
-            standing = true;
+            obj->is_jumping = false;
+            obj->y = (counter_h.y-obj_h.height);
+            got_coming_from_below = true;
+            coming_from_below_y = counter_h.y;
 
+          }
+
+          if(
+            (!got_coming_from_below || (counter_h.y < coming_from_below_y))
+            &&
+            ((obj_h.y+obj_h.height == counter_h.y))
+            &&
+            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
+
+          ){
+
+            if(!obj->is_jumping){
+
+              obj->y_vel = 0;
+              obj->y = (counter_h.y-obj_h.height);
+              obj->is_standing_on_something = true;
+
+            }
+            else{
+              obj->is_standing_on_something = false;
+            }
+            got_coming_from_below = true;
+            coming_from_below_y = counter_h.y;
 
           }
 
@@ -454,8 +476,11 @@ void Object_Engine::interact(){
 
     }
 
+    if (!got_coming_from_below){
 
+      obj->is_standing_on_something = false;
 
+    }
   }
 
 }

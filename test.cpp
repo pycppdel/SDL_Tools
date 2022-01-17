@@ -41,7 +41,9 @@ Timer framer(60, frame, NULL);
 
 Testbox test(100, 100, 100, 100, 800, black);
 
-Testbox Block(400, 500, 200, 200, 800, blue);
+Testbox Block(100, 400, 100, 100, 800, blue);
+Testbox Block2(200, 350, 100, 200, 800, blue);
+Testbox Block3(400, 500, 200, 200, 800, blue);
 
 int main(int argc, char** argv){
   init();
@@ -58,23 +60,25 @@ int main(int argc, char** argv){
   test.add_hitbox(0, 0, 100, 100);
 
   Block.can_fall = false;
-  Block.add_hitbox(0, 0, 200, 200);
+  Block.add_hitbox(0, 0, 100, 100);
+  Block2.can_fall = false;
+  Block2.add_hitbox(0, 0, 200, 100);
   quit = false;
 
   standard_engine.register_object((PhysicObject*)&test);
   standard_engine.register_object((PhysicObject*)&Block);
+  standard_engine.register_object((PhysicObject*)&Block2);
 
   standard_engine.load_object((PhysicObject*)&test);
   standard_engine.load_object((PhysicObject*)&Block);
+  standard_engine.load_object((PhysicObject*)&Block2);
 
   while (!quit){
   framer.tick();
 
-  /*
-  std::cout << test.hitboxes[1].x << std::endl;
-  std::cout.flush();
 
-  */
+
+
 }
 
   end();
