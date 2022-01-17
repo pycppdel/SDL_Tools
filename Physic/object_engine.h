@@ -317,7 +317,7 @@ void Object_Engine::interact(){
             (!got_coming_from_below || (counter_h.y <= coming_from_below_y))
             &&
             (
-            (obj_h.y+obj_h.height < counter_h.y && obj_h.y+obj_h.height+obj->y_vel > counter_h.y)
+            (obj_h.y+obj_h.height <= counter_h.y && obj_h.y+obj_h.height+obj->y_vel >= counter_h.y)
             )
             &&
             ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
