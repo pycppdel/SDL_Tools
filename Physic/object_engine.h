@@ -320,9 +320,19 @@ void Object_Engine::interact(){
             (obj_h.y+obj_h.height <= counter_h.y && obj_h.y+obj_h.height+obj->y_vel >= counter_h.y)
             )
             &&
-            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            (((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
             ||
             (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
+            ||
+            ((
+
+              (obj_h.x <= counter_h.x && obj_h.x+obj_h.width >= counter_h.x+counter_h.width)
+              ||
+              (obj_h.x <= counter_h.x && obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+
+
+            ))
+          )
 
           ){
 
@@ -507,13 +517,13 @@ void Object_Engine::load_unload(){
 
     if (
 
-      obj->x+obj->width <= camera_ptr->x
+      obj->x+obj->width <= camera_ptr->x-x_load_tolerance
       ||
-      obj->x >= camera_ptr->x+camera_ptr->w
+      obj->x >= camera_ptr->x+camera_ptr->w+x_load_tolerance
       ||
-      obj->y+obj->height <= camera_ptr->y
+      obj->y+obj->height <= camera_ptr->y-y_load_tolerance
       ||
-      obj->y >= camera_ptr->y+camera_ptr->h
+      obj->y >= camera_ptr->y+camera_ptr->h+y_load_tolerance
 
     ){
 
@@ -530,13 +540,14 @@ void Object_Engine::load_unload(){
 
     if (
 
-      !(obj->x+obj->width <= camera_ptr->x
+      !(obj->x+obj->width <= camera_ptr->x-x_load_tolerance
       ||
-      obj->x >= camera_ptr->x+camera_ptr->w
+      obj->x >= camera_ptr->x+camera_ptr->w+x_load_tolerance
       ||
-      obj->y+obj->height <= camera_ptr->y
+      obj->y+obj->height <= camera_ptr->y-y_load_tolerance
       ||
-      obj->y >= camera_ptr->y+camera_ptr->h)
+      obj->y >= camera_ptr->y+camera_ptr->h+y_load_tolerance
+    )
 
     ){
 

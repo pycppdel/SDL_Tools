@@ -27,11 +27,16 @@ public:
 
   Testbox(int, int, int, int, int, SDL_Color&);
   Testbox();
+  virtual ~Testbox();
   void draw(SDL_Renderer*);
 
   void on_frame();
 
 };
+
+Testbox::Testbox() : GroundObject(0, 0, 0, 0, 0){
+
+}
 
 
 Testbox::Testbox(int x, int y, int w, int h, int ground, SDL_Color& cl) : GroundObject(x, y, w, h, ground){
@@ -42,6 +47,10 @@ Testbox::Testbox(int x, int y, int w, int h, int ground, SDL_Color& cl) : Ground
   pos.w = w;
   pos.h = h;
   gravity = 0.5F;
+
+}
+
+Testbox::~Testbox(){
 
 }
 

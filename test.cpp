@@ -3,6 +3,7 @@
 #include <SDL_ttf.h>
 #include <cstddef>
 #include <iostream>
+#include <ctime>
 
 #include <cinttypes>
 
@@ -33,20 +34,44 @@ void end();
 void draw();
 void frame(void*);
 
+int jump_count = 0;
+
 SDL_Color black = {0, 0, 0};
 SDL_Color blue = {0, 0, 0xFF};
 
 Timer framer(60, frame, NULL);
 
 
-Testbox test(100, 100, 100, 100, 800, black);
+Testbox test(10, 10, 10, 10, 800, black);
 
-Testbox Block(100, 400, 100, 100, 800, blue);
-Testbox Block2(200, 350, 100, 200, 800, blue);
-Testbox Block3(400, 500, 200, 200, 800, blue);
+Testbox Block(300, 100, 100, 100, 800, blue);
+Testbox Block2(700, 350, 100, 200, 800, blue);
+Testbox Block3(200, 200, 30, 50, 800, blue);
+Testbox Block4(100, 500, 300, 100, 800, blue);
+Testbox Block5(400, 500, 200, 200, 800, blue);
+
+Testbox boxes[400];
+int b_counter = 0;
+
+void add_block(int x, int y, int w, int h){
+
+  Testbox* box = new Testbox(x, y, w, h, 800, blue);
+
+    box->add_hitbox(0, 0, w, h);
+    box->can_fall = false;
+
+  boxes[b_counter++] = (*box);
+  standard_engine.register_object((PhysicObject*)box);
+  standard_engine.load_object((PhysicObject*)box);
+
+
+}
 
 int main(int argc, char** argv){
   init();
+
+  srand(time(NULL));
+
 
   main_camera.x = 0;
   main_camera.y = 0;
@@ -55,29 +80,44 @@ int main(int argc, char** argv){
   test.has_bounds = false;
   test.can_slide = true;
   test.can_bounce = false;
-  test.can_wall_bounce = true;
-  test.set_boundaries(0, 800);
+  test.can_wall_bounce = false;
   test.slow_down = .0F;
   test.has_max_speed = true;
-  test.max_speed = 10;
+  test.max_speed = 40;
   //test.can_wall_bounce = true;
-  test.can_slide = true;
+  test.can_slide = false;
+  test.gravity = .2F;
   //test.add_hitbox(0, 0, 100, 100);
-  test.add_hitbox(0, 0, 100, 100);
+  test.add_hitbox(0, 0, 10, 10);
 
   Block.can_fall = false;
   Block.add_hitbox(0, 0, 100, 100);
   Block2.can_fall = false;
-  Block2.add_hitbox(0, 0, 200, 100);
+  Block2.add_hitbox(0, 0, 200, 200);
+  Block4.add_hitbox(0, 0, 300, 100);
+  Block4.can_fall = false;
+  Block3.add_hitbox(0, 0, 30, 50);
+  Block3.can_fall = false;
   quit = false;
 
   standard_engine.register_object((PhysicObject*)&test);
   standard_engine.register_object((PhysicObject*)&Block);
   standard_engine.register_object((PhysicObject*)&Block2);
+  standard_engine.register_object((PhysicObject*)&Block4);
+  standard_engine.register_object((PhysicObject*)&Block3);
 
   standard_engine.load_object((PhysicObject*)&test);
   standard_engine.load_object((PhysicObject*)&Block);
   standard_engine.load_object((PhysicObject*)&Block2);
+  standard_engine.load_object((PhysicObject*)&Block4);
+  standard_engine.load_object((PhysicObject*)&Block3);
+
+  for(int i = 0; i < 200; i++){
+
+    add_block(rand()%800, -(rand()%10000), rand()%100+50, rand()%100+20);
+
+  }
+
 
   while (!quit){
   framer.tick();
@@ -105,6 +145,12 @@ void init(){
 
 void end(){
 //  SDL_JoystickClose(stick);
+
+for(int z = 0; z < b_counter; z++){
+
+  delete &boxes[z];
+
+}
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
@@ -129,17 +175,18 @@ void frame(void* n){
 
     if (state[SDL_SCANCODE_LEFT]){
 
-      test.move_left(5);
+      test.move_left(10);
 
     }
     if (state[SDL_SCANCODE_RIGHT]){
 
-      test.move_right(5);
+      test.move_right(10);
 
     }
-    if(state[SDL_SCANCODE_SPACE]){
+    if(state[SDL_SCANCODE_SPACE] && jump_count < 2){
 
-      test.jump(-20);
+      test.jump(15);
+      jump_count++;
 
     }
 
@@ -154,6 +201,9 @@ void frame(void* n){
     standard_engine.interact();
     standard_engine.load_unload();
 
+    main_camera.x = test.x-400;
+    main_camera.y = test.y-400;
+
 
 
     switch(e.type){
@@ -163,5 +213,10 @@ void frame(void* n){
                     break;
 		   }
        standard_engine.on_frame_loaded_objects();
+       if (!test.is_jumping){
+
+         jump_count = 0;
+
+       }
         draw();
     }

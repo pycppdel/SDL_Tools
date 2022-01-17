@@ -23,7 +23,7 @@ class GroundObject : public PhysicObject{
 
 public:
 
-  
+
 
 
   //for ground bouncing
@@ -52,21 +52,21 @@ public:
 
 };
 
-GroundObject::GroundObject(int x, int y, int h, int w, int ground) : PhysicObject(x, y, w, h){
+GroundObject::GroundObject(int x, int y, int w, int h, int ground) : PhysicObject(x, y, w, h){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
 
 }
 
-GroundObject::GroundObject(int x, int y, int h, int w, float slow, int ground) : PhysicObject(x, y, w, h, slow){
+GroundObject::GroundObject(int x, int y, int w, int h, float slow, int ground) : PhysicObject(x, y, w, h, slow){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
 
 }
 
-GroundObject::GroundObject(int x, int y, int h, int w, int ground, bool can_slow) : PhysicObject(x, y, w, h, can_slow){
+GroundObject::GroundObject(int x, int y, int w, int h, int ground, bool can_slow) : PhysicObject(x, y, w, h, can_slow){
 
   this->groundlevel = ground;
   this->gravity = GROUND_OBJECT_STANDARD_GRAVITY;
