@@ -53,9 +53,11 @@ int main(int argc, char** argv){
   main_camera.w = 800;
   main_camera.h = 800;
   test.has_bounds = false;
-  test.can_slide = false;
+  test.can_slide = true;
   test.can_bounce = false;
-  test.can_wall_bounce = false;
+  test.can_wall_bounce = true;
+  test.set_boundaries(0, 800);
+  test.slow_down = .0F;
   test.has_max_speed = true;
   test.max_speed = 10;
   //test.can_wall_bounce = true;

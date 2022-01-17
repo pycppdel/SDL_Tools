@@ -416,6 +416,11 @@ void Object_Engine::interact(){
               obj->x_vel = 0;
 
             }
+            else{
+
+              obj->x_vel = -obj->x_vel;
+
+            }
 
 
 
