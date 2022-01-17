@@ -47,8 +47,7 @@ Testbox Block3(400, 500, 200, 200, 800, blue);
 
 int main(int argc, char** argv){
   init();
-  test.has_bounds = true;
-  test.set_boundaries(0, 800);
+  test.has_bounds = false;
   test.can_slide = false;
   test.can_bounce = false;
   test.can_wall_bounce = false;
@@ -143,6 +142,9 @@ void frame(void* n){
 
 
     }
+
+    main_camera.x = test.x-400;
+    main_camera.y = 0;
 
     standard_engine.interact();
 

@@ -305,7 +305,7 @@ void Object_Engine::interact(){
           //checking for above hit
 
           if(
-            (!got_coming_from_below || (counter_h.y < coming_from_below_y))
+            (!got_coming_from_below || (counter_h.y <= coming_from_below_y))
             &&
             (
             (obj_h.y+obj_h.height < counter_h.y && obj_h.y+obj_h.height+obj->y_vel > counter_h.y)
@@ -327,7 +327,7 @@ void Object_Engine::interact(){
           }
 
           if(
-            (!got_coming_from_below || (counter_h.y < coming_from_below_y))
+            (!got_coming_from_below || (counter_h.y <= coming_from_below_y))
             &&
             ((obj_h.y+obj_h.height == counter_h.y))
             &&
@@ -357,12 +357,12 @@ void Object_Engine::interact(){
 
           if(
 
-            (!got_coming_from_above || (counter_h.y+counter_h.height > got_coming_from_above))
+            (!got_coming_from_above || (counter_h.y+counter_h.height >= got_coming_from_above))
             //checking if before was below, but now is above
             &&
             (obj_h.y) >= (counter_h.y+counter_h.height)
             &&
-            (obj_h.y+obj->y_vel) < (counter_h.y+counter_h.height)
+            (obj_h.y+obj->y_vel) <= (counter_h.y+counter_h.height)
             &&
             //inside object
             ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
@@ -385,18 +385,18 @@ void Object_Engine::interact(){
 
 
             // hits right if: hitbox is greater, of counter part is the rightest, and y value corresponds
-            (!got_coming_from_right || (counter_h.x+counter_h.width > coming_from_right_hit_x))
+            (!got_coming_from_right || (counter_h.x+counter_h.width >= coming_from_right_hit_x))
             &&
             //if first bigger, but after moving smaller
-            (obj_h.x) > (counter_h.x+counter_h.width)
+            (obj_h.x) >= (counter_h.x+counter_h.width)
             &&
             //smaller:
-            (obj_h.x + obj->x_vel) < (counter_h.x+counter_h.width)
+            (obj_h.x + obj->x_vel) <= (counter_h.x+counter_h.width)
             &&
             //and inside the object
-            ((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
+            ((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
             ||
-            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
+            (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
             )
           )
           {
@@ -424,18 +424,18 @@ void Object_Engine::interact(){
             //if is first smaller, but after adding the x_velocity it hits the object, and the object is smallest, and y value corresponds: left hit
 
             //checking if smallest
-            (!got_coming_from_left || (counter_h.x < coming_from_left_hit_x))
+            (!got_coming_from_left || (counter_h.x <= coming_from_left_hit_x))
             &&
             //if first smaller, but after moving bigger
             (obj_h.x + obj_h.width) <= (counter_h.x)
             &&
             //after bigger
-            (obj_h.x +  obj_h.width + obj->x_vel) > (counter_h.x)
+            (obj_h.x +  obj_h.width + obj->x_vel) >= (counter_h.x)
             &&
             //and inside the object
-            ((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
+            ((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
             ||
-            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
+            (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
             )
 
 
@@ -467,6 +467,13 @@ void Object_Engine::interact(){
 
 
           }
+
+          if (!got_coming_from_left && !got_coming_from_right && !got_coming_from_below && !got_coming_from_above
+          && obj_h.hits(counter_h)
+        ){
+          obj->x_vel = 0;
+
+        }
 
 
         }
