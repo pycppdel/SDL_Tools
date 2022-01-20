@@ -50,6 +50,7 @@ Testbox Block2(700, 350, 100, 200, 800, blue);
 Testbox Block3(200, 200, 30, 50, 800, blue);
 Testbox Block4(100, 500, 300, 100, 800, blue);
 Testbox Block5(400, 500, 200, 200, 800, blue);
+Testbox faller(0, 0, 10, 10, 800, blue);
 
 Testbox boxes[1000];
 int b_counter = 0;
@@ -72,6 +73,8 @@ int main(int argc, char** argv){
   init();
 
   srand(time(NULL));
+
+
 
 
   main_camera.x = 0;
@@ -107,6 +110,7 @@ int main(int argc, char** argv){
   standard_engine.register_object((PhysicObject*)&Block2);
   standard_engine.register_object((PhysicObject*)&Block4);
   standard_engine.register_object((PhysicObject*)&Block3);
+  standard_engine.register_object((PhysicObject*)&faller);
 
   standard_engine.load_object((PhysicObject*)&test);
   standard_engine.load_object((PhysicObject*)&Block);
