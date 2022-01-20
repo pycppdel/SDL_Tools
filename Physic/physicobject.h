@@ -19,6 +19,8 @@
 #define STANDARD_SLOWDOWN 3.0F
 #define STANDARD_BOUNDARY_RIGHT 1920
 #define STANDARD_MAX_SPEED 100.0F
+#define STANDARD_GROUND_BOUNCE_STOP 8.0F
+#define STANDARD_Y_VEL_HIT_INVERTER 0.7F
 
 class PhysicObject{
 
@@ -80,6 +82,11 @@ public:
   //defines the maximum of speed the object can reach, or if it has a max speed
   bool has_max_speed = false;
   float max_speed = STANDARD_MAX_SPEED;
+
+  //for ground bouncing
+  bool can_bounce = true;
+  float ground_bounce_stop = STANDARD_GROUND_BOUNCE_STOP;
+  float y_vel_above_hit_inverter = STANDARD_Y_VEL_HIT_INVERTER;
 
   //all hitboxes from the object
   std::vector<Hitbox> hitboxes;

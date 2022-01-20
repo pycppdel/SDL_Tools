@@ -16,7 +16,6 @@
 
 //standard definitions
 #define GROUND_OBJECT_STANDARD_GRAVITY 1.1F
-#define STANDARD_GROUND_BOUNCE_STOP 8.0F
 #define STANDARD_MAX_FALL_SPEED 60.0F
 
 class GroundObject : public PhysicObject{
@@ -25,10 +24,6 @@ public:
 
 
 
-
-  //for ground bouncing
-  bool can_bounce = true;
-  float ground_bounce_stop = STANDARD_GROUND_BOUNCE_STOP;
 
   //definition variables for ground
   float gravity;

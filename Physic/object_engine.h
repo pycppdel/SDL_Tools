@@ -37,6 +37,11 @@ private:
   //pointer to the relevant camera
   Camera* camera_ptr = NULL;
 
+protected:
+
+  virtual bool check_x_hit(Hitbox&, Hitbox&);
+  virtual bool check_y_hit(Hitbox&, Hitbox&);
+
 public:
 
   //load tolerance for loading and unloading objects
@@ -309,6 +314,33 @@ void Object_Engine::interact(){
 
           //iterating through all hitboxes
 
+          //checking if jumps against hitbox from below
+          if(
+
+            (!got_coming_from_above || (counter_h.y+counter_h.height >= got_coming_from_above))
+            //checking if before was below, but now is above
+            &&
+            (obj_h.y) >= (counter_h.y+counter_h.height)
+            &&
+            (obj_h.y+obj->y_vel) <= (counter_h.y+counter_h.height)
+            &&
+            //inside object
+            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
+
+          ){
+
+            //set y vel opposite
+            obj->y = (counter_h.y+counter_h.height);
+            if(obj->can_bounce){
+              obj->y_vel = -(obj->y_vel*obj->y_vel_above_hit_inverter);
+            }
+            else{
+              obj->y_vel = 0;
+            }
+
+          }
           //checking for hit from above
 
           //checking for above hit
@@ -317,21 +349,13 @@ void Object_Engine::interact(){
             (!got_coming_from_below || (counter_h.y <= coming_from_below_y))
             &&
             (
-            (obj_h.y+obj_h.height <= counter_h.y && obj_h.y+obj_h.height+obj->y_vel >= counter_h.y)
+            (obj_h.y+obj_h.height <= counter_h.y && obj_h.y+obj_h.height+obj->y_vel > counter_h.y)
             )
             &&
             (((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
             ||
             (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
-            ||
-            ((
 
-              (obj_h.x <= counter_h.x && obj_h.x+obj_h.width >= counter_h.x+counter_h.width)
-              ||
-              (obj_h.x <= counter_h.x && obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
-
-
-            ))
           )
 
           ){
@@ -371,29 +395,7 @@ void Object_Engine::interact(){
 
 
 
-          if(
 
-            (!got_coming_from_above || (counter_h.y+counter_h.height >= got_coming_from_above))
-            //checking if before was below, but now is above
-            &&
-            (obj_h.y) >= (counter_h.y+counter_h.height)
-            &&
-            (obj_h.y+obj->y_vel) <= (counter_h.y+counter_h.height)
-            &&
-            //inside object
-            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
-            ||
-            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
-
-
-
-          ){
-
-            //set y vel opposite
-            obj->y = (counter_h.y+counter_h.height);
-            obj->y_vel = -obj->y_vel;
-
-          }
 
           //checking for a right hit
 
@@ -407,7 +409,7 @@ void Object_Engine::interact(){
             (obj_h.x) >= (counter_h.x+counter_h.width)
             &&
             //smaller:
-            (obj_h.x + obj->x_vel) <= (counter_h.x+counter_h.width)
+            (obj_h.x + obj->x_vel) < (counter_h.x+counter_h.width)
             &&
             //and inside the object
             ((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
@@ -424,6 +426,7 @@ void Object_Engine::interact(){
 
               //stop the object
               obj->x_vel = 0;
+              obj->x = counter_h.x+counter_h.width;
 
             }
             else{
@@ -451,7 +454,7 @@ void Object_Engine::interact(){
             (obj_h.x + obj_h.width) <= (counter_h.x)
             &&
             //after bigger
-            (obj_h.x +  obj_h.width + obj->x_vel) >= (counter_h.x)
+            (obj_h.x +  obj_h.width + obj->x_vel) > (counter_h.x)
             &&
             //and inside the object
             ((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
@@ -474,6 +477,7 @@ void Object_Engine::interact(){
 
               //stop the object
               obj->x_vel = 0;
+              obj->x = counter_h.x-obj->width;
 
               //if didnt crash
 
@@ -502,6 +506,8 @@ void Object_Engine::interact(){
       obj->is_standing_on_something = false;
 
     }
+
+
   }
 
 }
@@ -572,6 +578,19 @@ std::vector<PhysicObject*>* Object_Engine::get_unloaded_objects(){
   //gives back the unloaded objects
   return &unloaded_objects;
 
+}
+
+bool Object_Engine::check_x_hit(Hitbox& obj_h, Hitbox& counter_h){
+
+  return false;
+
+}
+
+bool Object_Engine::check_y_hit(Hitbox& obj_h, Hitbox& counter_h){
+
+  return ((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
+  ||
+  (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height));
 }
 
 Object_Engine standard_engine(&main_camera);
