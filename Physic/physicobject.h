@@ -20,7 +20,7 @@
 #define STANDARD_BOUNDARY_RIGHT 1920
 #define STANDARD_MAX_SPEED 100.0F
 #define STANDARD_GROUND_BOUNCE_STOP 8.0F
-#define STANDARD_Y_VEL_HIT_INVERTER 0.91F
+#define STANDARD_Y_VEL_HIT_INVERTER 0.7F
 
 class PhysicObject{
 
@@ -86,6 +86,7 @@ public:
   //for ground bouncing
   bool can_bounce = true;
   float ground_bounce_stop = STANDARD_GROUND_BOUNCE_STOP;
+  //defines to which scale the object will bounce off after hitting another one
   float y_vel_above_hit_inverter = STANDARD_Y_VEL_HIT_INVERTER;
 
   //all hitboxes from the object
