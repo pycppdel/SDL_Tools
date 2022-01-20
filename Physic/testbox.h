@@ -28,7 +28,7 @@ public:
   Testbox(int, int, int, int, int, SDL_Color&);
   Testbox();
   virtual ~Testbox();
-  void draw(SDL_Renderer*);
+  void draw(void*);
 
   void on_frame();
 
@@ -56,7 +56,9 @@ Testbox::~Testbox(){
 
 
 
-void Testbox::draw(SDL_Renderer* r){
+void Testbox::draw(void* re){
+
+  SDL_Renderer* r = static_cast<SDL_Renderer*>(re);
 
   SDL_SetRenderDrawColor(r, c.r, c.g, c.b, 0x0);
   SDL_RenderFillRect(r, &pos);

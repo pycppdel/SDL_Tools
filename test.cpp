@@ -162,7 +162,7 @@ void draw(){
   SDL_RenderClear(renderer);
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
 
-  standard_engine.draw_loaded_objects(renderer);
+  standard_engine.draw_loaded_objects(static_cast<void*>(renderer));
 
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
   SDL_RenderPresent(renderer);

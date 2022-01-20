@@ -96,7 +96,7 @@ public:
 
   virtual void move_left(int);
   virtual void move_right(int);
-  virtual void draw(SDL_Renderer*)=0;
+  virtual void draw(void*)=0;
   virtual void on_frame();
   virtual void set_boundaries(int, int);
 

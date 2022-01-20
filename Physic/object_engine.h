@@ -73,7 +73,7 @@ public:
   std::vector<PhysicObject*>* get_unloaded_objects();
 
   //for drawing and framing loaded objects
-  void draw_loaded_objects(SDL_Renderer*);
+  void draw_loaded_objects(void*);
   void on_frame_loaded_objects();
 
 
@@ -245,7 +245,7 @@ void Object_Engine::unload_object(PhysicObject* obj){
 
 }
 
-void Object_Engine::draw_loaded_objects(SDL_Renderer* rend){
+void Object_Engine::draw_loaded_objects(void* rend){
 
   for (PhysicObject* obj : loaded_objects){
 
