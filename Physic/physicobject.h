@@ -89,6 +89,9 @@ public:
   //defines to which scale the object will bounce off after hitting another one
   float y_vel_above_hit_inverter = STANDARD_Y_VEL_HIT_INVERTER;
 
+  //variables for movability
+  bool left_moveable = false, right_moveable = false;
+
   //all hitboxes from the object
   std::vector<Hitbox> hitboxes;
 

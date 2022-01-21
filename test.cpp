@@ -59,6 +59,7 @@ void add_block(int x, int y, int w, int h){
 
   Testbox* box = new Testbox(x, y, w, h, 800, blue);
 
+
     box->add_hitbox(0, 0, w, h);
     box->can_fall = false;
 
@@ -74,9 +75,9 @@ int main(int argc, char** argv){
 
   srand(time(NULL));
 
-
-
-
+  faller.add_hitbox(0, 0, 10, 10);
+  faller.left_moveable = true;
+  faller.right_moveable = true;
   main_camera.x = 0;
   main_camera.y = 0;
   main_camera.w = 800;

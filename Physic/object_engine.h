@@ -24,6 +24,7 @@
 #endif
 
 #define NO_TOLERANCE 0
+#define STABILITY_FACTOR 2
 
 class Object_Engine{
 
@@ -330,12 +331,25 @@ void Object_Engine::interact(){
             ||
             (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
             ||
-            (counter_h.width < obj_h.width && counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+
+            (counter_h.width < obj_h.width &&
+              (counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+              ||
+              (counter_h.x < obj_h.x && counter_h.x+counter_h.width >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+          )
+            ||
+
+            (obj_h.width < counter_h.width &&
+              (obj_h.x >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x < counter_h.x && obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+          )
           )
 
           ){
 
-
+            coming_from_above_y = counter_h.y+counter_h.height;
+            got_coming_from_above = true;
             //set y vel opposite
             obj->y = (counter_h.y+counter_h.height);
             if(obj->can_bounce){
@@ -361,10 +375,23 @@ void Object_Engine::interact(){
             ||
             (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
             ||
-            (counter_h.width < obj_h.width && counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+            (counter_h.width < obj_h.width && (
+              (counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+              ||
+              (counter_h.x < obj_h.x && counter_h.x+counter_h.width >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+          ))
+            ||
+
+            (obj_h.width < counter_h.width &&(
+              (obj_h.x >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x < counter_h.x && obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+          ))
           )
 
           ){
+
+
 
             obj->is_standing_on_something = true;
             obj->y_vel = 0;
@@ -380,13 +407,22 @@ void Object_Engine::interact(){
             &&
             ((obj_h.y+obj_h.height == counter_h.y ))
             &&
-            (
-            ((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
+            (((obj_h.x >= counter_h.x && obj_h.x <= counter_h.x+counter_h.width)
             ||
-            ((obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
+            (obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width))
             ||
-            (counter_h.width < obj_h.width && counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
-          )
+            (counter_h.width < obj_h.width &&(
+              (counter_h.x >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+              ||
+              (counter_h.x < obj_h.x && counter_h.x+counter_h.width >= obj_h.x && counter_h.x+counter_h.width <= obj_h.x+obj_h.width)
+          ))
+            ||
+
+            (obj_h.width < counter_h.width &&(
+              (obj_h.x >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+            ||
+            (obj_h.x < counter_h.x && obj_h.x+obj_h.width >= counter_h.x && obj_h.x+obj_h.width <= counter_h.x+counter_h.width)
+          ))
           )
 
           ){
@@ -428,13 +464,28 @@ void Object_Engine::interact(){
             (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
             )
             ||
-            (counter_h.height < obj_h.height && counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+            (counter_h.height < obj_h.height &&(
+              (counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+              ||
+              (counter_h.y < obj_h.y && counter_h.y+counter_h.height >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+            )
+            )
+            ||
+            (obj_h.height < counter_h.height && ((obj_h.y >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y +counter_h.height)
+            ||
+            (obj_h.y < counter_h.y && obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+          )
+          )
           )
           )
           {
 
             got_coming_from_right = true;
             coming_from_right_hit_x = counter_h.x+counter_h.width;
+            if (counter->left_moveable){
+              //counter->x = obj_h.x-counter_h.width;
+              counter->x_vel = obj->x_vel+STABILITY_FACTOR;
+            }
 
             if (!obj->can_wall_bounce){
 
@@ -476,7 +527,18 @@ void Object_Engine::interact(){
             (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
             )
             ||
-              (counter_h.height < obj_h.height && counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+            (counter_h.height < obj_h.height &&(
+              (counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+              ||
+              (counter_h.y < obj_h.y && counter_h.y+counter_h.height >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+            )
+            )
+            ||
+            (obj_h.height < counter_h.height && ((obj_h.y >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y +counter_h.height)
+            ||
+            (obj_h.y < counter_h.y && obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+          )
+          )
           )
 
 
@@ -487,6 +549,10 @@ void Object_Engine::interact(){
 
             got_coming_from_left = true;
             coming_from_left_hit_x = counter_h.x;
+            if (counter->right_moveable){
+              //counter->x = obj_h.x+obj_h.width;
+              counter->x_vel = obj->x_vel-STABILITY_FACTOR;
+            }
 
             //now, is left hitting:
             //if cant wall bounce: stop
