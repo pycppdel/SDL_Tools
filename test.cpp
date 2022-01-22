@@ -43,7 +43,7 @@ SDL_Color blue = {0, 0, 0xFF};
 Timer framer(60, frame, NULL);
 
 
-Testbox test(10, 0, 10, 10, 800, black);
+Testbox test(10, 0, 100, 100, 800, black);
 
 Testbox Block(300, 100, 100, 100, 800, blue);
 Testbox Block2(700, 350, 100, 200, 800, blue);
@@ -93,7 +93,7 @@ int main(int argc, char** argv){
   test.can_slide = false;
   test.gravity = .2F;
   //test.add_hitbox(0, 0, 100, 100);
-  test.add_hitbox(0, 0, 10, 10);
+  test.add_hitbox(0, 0, 100, 100);
   test.y = -1000;
 
   Block.can_fall = false;
