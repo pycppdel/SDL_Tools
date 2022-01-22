@@ -318,7 +318,7 @@ void Object_Engine::interact(){
           //checking if jumps against hitbox from below
           if(
 
-            (!got_coming_from_above || (counter_h.y+counter_h.height >= got_coming_from_above))
+            (!got_coming_from_above || (counter_h.y+counter_h.height >= got_coming_from_above_y))
             //checking if before was below, but now is above
             &&
             (obj_h.y) >= (counter_h.y+counter_h.height)
