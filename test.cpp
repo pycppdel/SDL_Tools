@@ -104,7 +104,6 @@ public:
     test.gravity = .2F;
     //test.add_hitbox(0, 0, 100, 100);
     test.add_hitbox(0, 0, 50, 50);
-    test.y = -1000;
 
     Block.can_fall = false;
     Block.add_hitbox(0, 0, 100, 100);
@@ -120,25 +119,27 @@ public:
     auto_engine.set_renderer(renderer);
 
     auto_engine.register_object((PhysicObject*)&test);
-    auto_engine.register_object((PhysicObject*)&Block);
-    auto_engine.register_object((PhysicObject*)&Block2);
-    auto_engine.register_object((PhysicObject*)&Block4);
-    auto_engine.register_object((PhysicObject*)&Block3);
-    auto_engine.register_object((PhysicObject*)&faller);
 
-    auto_engine.load_object((PhysicObject*)&test);
-    auto_engine.load_object((PhysicObject*)&Block);
-    auto_engine.load_object((PhysicObject*)&Block2);
-    auto_engine.load_object((PhysicObject*)&Block4);
-    auto_engine.load_object((PhysicObject*)&Block3);
+    add_block(100, 700, 100, 100);
+    add_block(200, 700, 100, 100);
+    add_block(300, 700, 100, 100);
+    add_block(400, 700, 100, 100);
+    add_block(500, 700, 100, 100);
+    add_block(800, 500, 300, 100);
+    add_block(1000, 400, 200, 100);
+    add_block(1200, 200, 100, 100);
 
+    int last_x = 1200;
+    int last_y = 200;
+    for(int i = 0; i < 100; i++){
 
-    for(int i = 0; i < 1000; i++){
-
-      add_block(rand()%800, -(rand()%100000), rand()%100+50, rand()%100+20);
+      last_x = last_x + rand()%500+200;
+      last_y = last_y - 100 - rand()%100;
+      int length = rand()%10+5;
+      add_block(last_x, last_y, length, 5);
 
     }
-    
+
 
   }
 
