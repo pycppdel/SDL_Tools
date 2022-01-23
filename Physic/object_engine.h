@@ -459,21 +459,21 @@ void Object_Engine::interact(){
             (obj_h.x + obj->x_vel) < (counter_h.x+counter_h.width)
             &&
             //and inside the object
-            (((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
+            (((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
             ||
-            (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
             )
             ||
             (counter_h.height < obj_h.height &&(
-              (counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+              (counter_h.y > obj_h.y && counter_h.y+counter_h.height < obj_h.y+obj_h.height)
               ||
-              (counter_h.y < obj_h.y && counter_h.y+counter_h.height >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+              (counter_h.y < obj_h.y && counter_h.y+counter_h.height > obj_h.y && counter_h.y+counter_h.height < obj_h.y+obj_h.height)
             )
             )
             ||
-            (obj_h.height < counter_h.height && ((obj_h.y >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y +counter_h.height)
+            (obj_h.height < counter_h.height && ((obj_h.y > counter_h.y && obj_h.y+obj_h.height < counter_h.y +counter_h.height)
             ||
-            (obj_h.y < counter_h.y && obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+            (obj_h.y < counter_h.y && obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
           )
           )
           )
@@ -522,21 +522,21 @@ void Object_Engine::interact(){
             (obj_h.x +  obj_h.width + obj->x_vel) > (counter_h.x)
             &&
             //and inside the object
-            (((obj_h.y >= counter_h.y && obj_h.y <= counter_h.y+counter_h.height)
+            (((obj_h.y > counter_h.y && obj_h.y < counter_h.y+counter_h.height)
             ||
-            (obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+            (obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
             )
             ||
             (counter_h.height < obj_h.height &&(
-              (counter_h.y >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
+              (counter_h.y > obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
               ||
               (counter_h.y < obj_h.y && counter_h.y+counter_h.height >= obj_h.y && counter_h.y+counter_h.height <= obj_h.y+obj_h.height)
             )
             )
             ||
-            (obj_h.height < counter_h.height && ((obj_h.y >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y +counter_h.height)
+            (obj_h.height < counter_h.height && ((obj_h.y > counter_h.y && obj_h.y+obj_h.height < counter_h.y +counter_h.height)
             ||
-            (obj_h.y < counter_h.y && obj_h.y+obj_h.height >= counter_h.y && obj_h.y+obj_h.height <= counter_h.y+counter_h.height)
+            (obj_h.y < counter_h.y && obj_h.y+obj_h.height > counter_h.y && obj_h.y+obj_h.height < counter_h.y+counter_h.height)
           )
           )
           )

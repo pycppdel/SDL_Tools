@@ -40,17 +40,18 @@ int jump_count = 0;
 SDL_Color black = {0, 0, 0};
 SDL_Color white = {0xFF, 0xFF, 0xFF};
 SDL_Color blue = {0, 0, 0xFF};
+SDL_Color red = {0xFF, 0, 0};
 
 Timer framer(60, frame, NULL);
 
 
-Testbox test(10, 0, 100, 100, 800, black);
+Testbox test(10, 0, 50, 50, 800, black);
 
 Testbox Block(300, 100, 100, 100, 800, blue);
-Testbox Block2(700, 350, 100, 200, 800, blue);
-Testbox Block3(200, 200, 30, 50, 800, blue);
-Testbox Block4(100, 500, 300, 100, 800, blue);
-Testbox Block5(400, 500, 200, 200, 800, blue);
+Testbox Block2(400, 100, 100, 100, 800, red);
+Testbox Block3(500, 100, 100, 100, 800, blue);
+Testbox Block4(600, 100, 100, 100, 800, blue);
+Testbox Block5(700, 100, 100, 100, 800, blue);
 Testbox faller(0, 0, 10, 10, 800, blue);
 
 Testbox boxes[1000];
@@ -102,16 +103,16 @@ public:
     test.can_slide = false;
     test.gravity = .2F;
     //test.add_hitbox(0, 0, 100, 100);
-    test.add_hitbox(0, 0, 100, 100);
+    test.add_hitbox(0, 0, 50, 50);
     test.y = -1000;
 
     Block.can_fall = false;
     Block.add_hitbox(0, 0, 100, 100);
     Block2.can_fall = false;
-    Block2.add_hitbox(0, 0, 200, 200);
-    Block4.add_hitbox(0, 0, 300, 100);
+    Block2.add_hitbox(0, 0, 100, 100);
+    Block4.add_hitbox(0, 0, 100, 100);
     Block4.can_fall = false;
-    Block3.add_hitbox(0, 0, 30, 50);
+    Block3.add_hitbox(0, 0, 100, 100);
     Block3.can_fall = false;
     quit = false;
 
@@ -131,11 +132,13 @@ public:
     auto_engine.load_object((PhysicObject*)&Block4);
     auto_engine.load_object((PhysicObject*)&Block3);
 
+
     for(int i = 0; i < 1000; i++){
 
       add_block(rand()%800, -(rand()%100000), rand()%100+50, rand()%100+20);
 
     }
+    
 
   }
 
@@ -158,7 +161,7 @@ public:
     }
     if(state[SDL_SCANCODE_SPACE] && jump_count < 2){
 
-      test.jump(50);
+      test.jump(15);
       jump_count++;
 
     }
