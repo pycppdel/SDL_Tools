@@ -24,13 +24,8 @@
 
 class PhysicObject{
 
-private:
 
-
-  //for updating hitboxes
-  virtual void update_hitboxes();
-
-public:
+protected:
 
   enum Direction{
 
@@ -39,6 +34,12 @@ public:
     UNDECIDED
 
   };
+  //general direction
+  Direction direction;
+  //for updating hitboxes
+  virtual void update_hitboxes();
+
+public:
   //coordinates
   int x, y;
   int width, height;
@@ -72,9 +73,6 @@ public:
 
   //ghost object means that other objects can pass through it without interacting
   bool ghost_object = false;
-
-  //general direction
-  Direction direction;
   //boolean for going
   bool can_go_right = true;
   bool can_go_left = true;

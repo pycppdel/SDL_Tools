@@ -42,6 +42,7 @@ public:
   Auto_Engine(Camera*);
   Auto_Engine(SDL_Color&);
   Auto_Engine(SDL_Color&, SDL_Renderer*);
+  Auto_Engine(Camera*, SDL_Color&, SDL_Renderer*);
   //for copying from vector
   Auto_Engine(std::vector<PhysicObject*>&);
   Auto_Engine(std::vector<PhysicObject*>&, Camera*);
@@ -59,6 +60,13 @@ Auto_Engine::Auto_Engine() : Object_Engine(){
 }
 
 Auto_Engine::Auto_Engine(Camera* cam) : Object_Engine(cam){
+
+}
+
+Auto_Engine::Auto_Engine(Camera* cam, SDL_Color& c, SDL_Renderer* r) : Object_Engine(cam){
+
+  background_color = c;
+  intern_renderer = r;
 
 }
 
