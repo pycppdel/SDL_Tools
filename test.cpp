@@ -56,6 +56,8 @@ Testbox faller(0, 0, 10, 10, 800, blue);
 Testbox boxes[1000];
 int b_counter = 0;
 
+Texture_Loader loader(renderer);
+
 void add_block(int x, int y, int w, int h){
 
   Testbox* box = new Testbox(x, y, w, h, 800, blue);
@@ -177,6 +179,8 @@ TestFrame fram;
 int main(int argc, char** argv){
   init();
 
+  loader.load_texture("snoop", "snoop.png");
+
   srand(time(NULL));
 
   TestFrame t(&e, renderer, white);
@@ -222,6 +226,7 @@ for(int z = 0; z < b_counter; z++){
 void draw(){
 
   SDL_RenderClear(renderer);
+  SDL_RenderCopy(renderer, loaded_textures["snoop"], NULL, NULL);
   auto_engine.execute_all();
   SDL_RenderPresent(renderer);
 
