@@ -103,7 +103,6 @@ void Auto_Engine::execute_all(){
   on_frame_loaded_objects();
 
   if(intern_renderer != NULL){
-
     SDL_SetRenderDrawColor(intern_renderer, background_color.r, background_color.g, background_color.b, 0x0);
     draw_loaded_objects((void*)intern_renderer);
     SDL_SetRenderDrawColor(intern_renderer, background_color.r, background_color.g, background_color.b, 0x0);

@@ -38,6 +38,7 @@ void frame(void*);
 int jump_count = 0;
 
 SDL_Color black = {0, 0, 0};
+SDL_Color white = {0xFF, 0xFF, 0xFF};
 SDL_Color blue = {0, 0, 0xFF};
 
 Timer framer(60, frame, NULL);
@@ -109,18 +110,21 @@ int main(int argc, char** argv){
   Block3.can_fall = false;
   quit = false;
 
-  standard_engine.register_object((PhysicObject*)&test);
-  standard_engine.register_object((PhysicObject*)&Block);
-  standard_engine.register_object((PhysicObject*)&Block2);
-  standard_engine.register_object((PhysicObject*)&Block4);
-  standard_engine.register_object((PhysicObject*)&Block3);
-  standard_engine.register_object((PhysicObject*)&faller);
+  auto_engine.set_color(white);
+  auto_engine.set_renderer(renderer);
 
-  standard_engine.load_object((PhysicObject*)&test);
-  standard_engine.load_object((PhysicObject*)&Block);
-  standard_engine.load_object((PhysicObject*)&Block2);
-  standard_engine.load_object((PhysicObject*)&Block4);
-  standard_engine.load_object((PhysicObject*)&Block3);
+  auto_engine.register_object((PhysicObject*)&test);
+  auto_engine.register_object((PhysicObject*)&Block);
+  auto_engine.register_object((PhysicObject*)&Block2);
+  auto_engine.register_object((PhysicObject*)&Block4);
+  auto_engine.register_object((PhysicObject*)&Block3);
+  auto_engine.register_object((PhysicObject*)&faller);
+
+  auto_engine.load_object((PhysicObject*)&test);
+  auto_engine.load_object((PhysicObject*)&Block);
+  auto_engine.load_object((PhysicObject*)&Block2);
+  auto_engine.load_object((PhysicObject*)&Block4);
+  auto_engine.load_object((PhysicObject*)&Block3);
 
   for(int i = 0; i < 1000; i++){
 
@@ -169,11 +173,7 @@ for(int z = 0; z < b_counter; z++){
 void draw(){
 
   SDL_RenderClear(renderer);
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
-
-  standard_engine.draw_loaded_objects(static_cast<void*>(renderer));
-
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0);
+  auto_engine.execute_all();
   SDL_RenderPresent(renderer);
 
 }
@@ -208,8 +208,6 @@ void frame(void* n){
     }
 
 
-    standard_engine.interact();
-    standard_engine.load_unload();
 
     main_camera.x = test.x-400;
     main_camera.y = test.y-400;
@@ -222,7 +220,6 @@ void frame(void* n){
                     quit = true;
                     break;
 		   }
-       standard_engine.on_frame_loaded_objects();
        if (!test.is_jumping){
 
          jump_count = 0;
