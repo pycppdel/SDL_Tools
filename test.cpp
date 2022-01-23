@@ -158,7 +158,7 @@ public:
     }
     if(state[SDL_SCANCODE_SPACE] && jump_count < 2){
 
-      test.jump(15);
+      test.jump(50);
       jump_count++;
 
     }
@@ -178,8 +178,6 @@ TestFrame fram;
 
 int main(int argc, char** argv){
   init();
-  loader.intern_renderer = renderer;
-  loader.load_texture("snoop", "sn.png");
 
 
   srand(time(NULL));
@@ -227,7 +225,6 @@ for(int z = 0; z < b_counter; z++){
 void draw(){
 
   SDL_RenderClear(renderer);
-  SDL_RenderCopy(renderer, loaded_textures["snoop"], NULL, NULL);
   auto_engine.execute_all();
   SDL_RenderPresent(renderer);
 
