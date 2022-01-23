@@ -24,6 +24,7 @@ public:
 
   void load_texture(std::string, std::string);
   void unload_texture(std::string);
+  SDL_Texture* get(std::string);
 
 };
 
@@ -56,7 +57,7 @@ Texture_Loader::~Texture_Loader(){
 
 void Texture_Loader::load_texture(std::string name, std::string path){
 
-  if(intern_renderer==NULL)return;
+  //if(intern_renderer==NULL)return;
 
   SDL_Surface* s = IMG_Load(path.c_str());
   SDL_Texture* lt = SDL_CreateTextureFromSurface(intern_renderer, s);
@@ -87,5 +88,24 @@ void Texture_Loader::unload_texture(std::string name){
 
 }
 
+SDL_Texture* Texture_Loader::get(std::string name){
+
+  std::map<std::string, SDL_Texture*>::iterator it;
+
+  it = loaded_textures.begin();
+
+  while (it != loaded_textures.end()){
+
+    if((*it).first == name){
+
+      return (*it).second;
+
+    }
+    it++;
+  }
+
+  return NULL;
+
+}
 
 #endif

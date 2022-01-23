@@ -178,8 +178,9 @@ TestFrame fram;
 
 int main(int argc, char** argv){
   init();
+  loader.intern_renderer = renderer;
+  loader.load_texture("snoop", "sn.png");
 
-  loader.load_texture("snoop", "snoop.png");
 
   srand(time(NULL));
 
