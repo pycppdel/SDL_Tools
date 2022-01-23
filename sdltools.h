@@ -21,5 +21,8 @@
 #include "circle.h"
 #endif
 
+#ifndef __SDL_TOOLS_DEVEL__
+#include "Devel/devel.h"
+#endif
 
 #endif

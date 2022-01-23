@@ -18,8 +18,5 @@
 #include "object_engine.h"
 #endif
 
-#ifndef __SUB__SDL__
-#include "SDL/sub_sdl.h"
-#endif
 
 #endif

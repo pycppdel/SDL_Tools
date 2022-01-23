@@ -14,11 +14,11 @@
 #endif
 
 #ifndef __SDL_TOOLS_OBJECT_ENGINE__
-#include "../object_engine.h"
+#include "../Physic/object_engine.h"
 #endif
 
 #ifndef __SDL_TOOLS_TIMER__
-#include "../../timer.h"
+#include "../timer.h"
 #endif
 
 #include <iostream>
