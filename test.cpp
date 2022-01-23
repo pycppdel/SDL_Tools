@@ -64,8 +64,7 @@ void add_block(int x, int y, int w, int h){
     box->can_fall = false;
 
   boxes[b_counter++] = (*box);
-  standard_engine.register_object((PhysicObject*)box);
-  standard_engine.load_object((PhysicObject*)box);
+  auto_engine.register_object((PhysicObject*)box);
 
 
 }
