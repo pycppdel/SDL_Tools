@@ -61,7 +61,7 @@ void General_Frame::load_into(Object_Engine* engine){
 
   for (PhysicObject* obj : objects){
 
-    engine.register_object(obj);
+    engine->register_object(obj);
 
   }
 
@@ -71,7 +71,27 @@ void General_Frame::load_into(Auto_Engine* engine){
 
   for (PhysicObject* obj : objects){
 
-    engine.register_object(obj);
+    engine->register_object(obj);
+
+  }
+
+}
+
+void General_Frame::unload_from(Object_Engine* engine){
+
+  for(PhysicObject* obj : objects){
+
+    engine->unregister_object(obj);
+
+  }
+
+}
+
+void General_Frame::unload_from(Auto_Engine* engine){
+
+  for(PhysicObject* obj : objects){
+
+    engine->unregister_object(obj);
 
   }
 
