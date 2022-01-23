@@ -75,6 +75,10 @@ int main(int argc, char** argv){
 
   srand(time(NULL));
 
+
+  main_camera.w = 800;
+  main_camera.h = 800;
+
   faller.add_hitbox(0, 0, 10, 10);
   faller.left_moveable = true;
   faller.right_moveable = true;
