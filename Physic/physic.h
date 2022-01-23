@@ -18,5 +18,8 @@
 #include "object_engine.h"
 #endif
 
+#ifndef __SDL_TOOLS_PHYSIC_TESTBOX__
+#include "testbox.h"
+#endif
 
 #endif

@@ -30,6 +30,11 @@
 #undef main
 #endif
 
+//standard definitions
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 800
+#define FPS 60
+
 
 //standard variables
 SDL_Window* window;
@@ -46,7 +51,7 @@ void draw();
 void frame(void*);
 
 //timer for controlled management
-Timer timer(60, frame, NULL);
+Timer timer(FPS, frame, NULL);
 
 
 int main(int argc, char** argv){
@@ -74,15 +79,14 @@ void init(){
   TTF_Init();
 
   //creating window
-  window = SDL_CreateWindow("", 100, 100, 800, 800, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow("", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 }
 
 void end(){
-//  SDL_JoystickClose(stick);
-  SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
   SDL_Quit();
 }
 
