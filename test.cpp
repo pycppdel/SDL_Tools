@@ -45,7 +45,7 @@ SDL_Color red = {0xFF, 0, 0};
 Timer framer(60, frame, NULL);
 
 
-Testbox test(10, 0, 50, 50, 800, black);
+Testbox test(10, 0, 10, 10, 800, black);
 
 Testbox Block(300, 100, 100, 100, 800, blue);
 Testbox Block2(400, 100, 100, 100, 800, red);
@@ -101,9 +101,10 @@ public:
     test.max_speed = 40;
     //test.can_wall_bounce = true;
     test.can_slide = false;
+
     test.gravity = .2F;
     //test.add_hitbox(0, 0, 100, 100);
-    test.add_hitbox(0, 0, 50, 50);
+    test.add_hitbox(0, 0, 10, 10);
 
     Block.can_fall = false;
     Block.add_hitbox(0, 0, 100, 100);
@@ -131,13 +132,9 @@ public:
 
     int last_x = 1200;
     int last_y = 200;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 500; i++){
 
-      last_x = last_x + rand()%500+200;
-      last_y = last_y - 100 - rand()%100;
-      int length = rand()%10+5;
-      add_block(last_x, last_y, length, 5);
-
+      add_block(rand()%600+200, rand()%600, 10, 10);
     }
 
 
