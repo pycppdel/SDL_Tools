@@ -1,6 +1,7 @@
 /*
 *
 *
+*
 * Implementation of the superclass of all physic objects
 *
 *
@@ -76,7 +77,7 @@ public:
   //boolean for going
   bool can_go_right = true;
   bool can_go_left = true;
-
+  int last_x = 0, last_y = 0;
   //defines the maximum of speed the object can reach, or if it has a max speed
   bool has_max_speed = false;
   float max_speed = STANDARD_MAX_SPEED;
@@ -412,6 +413,13 @@ void PhysicObject::on_frame(){
 
     direction = RIGHT;
 
+  }
+
+  if(y < -1000000){
+	  y = last_y;
+  }
+  if(x < -1000000){
+	  x = last_x;
   }
 
   //updating the hitboxes
