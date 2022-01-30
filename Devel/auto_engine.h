@@ -37,6 +37,7 @@ protected:
 
 public:
 
+  bool auto_load = true;
 
   Auto_Engine();
   Auto_Engine(Camera*);
@@ -106,7 +107,9 @@ Auto_Engine::Auto_Engine(std::vector<PhysicObject*>& obj, Camera* cam, SDL_Color
 
 void Auto_Engine::execute_all(){
 
-  load_unload();
+  if(auto_load){
+    load_unload();
+  }
   interact();
   on_frame_loaded_objects();
 
