@@ -17,6 +17,7 @@
 //standard definitions
 #define GROUND_OBJECT_STANDARD_GRAVITY 1.1F
 #define STANDARD_MAX_FALL_SPEED 60.0F
+#define STANDARD_GROUND_FRICTION 2.0F
 
 class GroundObject : public PhysicObject{
 
@@ -120,6 +121,7 @@ void GroundObject::fall(){
         else{
           //else bounce, but not jumping
           y_vel = -y_vel;
+          y_vel += STANDARD_GROUND_FRICTION;
           is_jumping = false;
 
         }
