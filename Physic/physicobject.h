@@ -414,13 +414,13 @@ void PhysicObject::on_frame(){
     direction = RIGHT;
 
   }
-
-  if(y < -1000000){
+  if(y < -1000000000){
 	  y = last_y;
   }
-  if(x < -1000000){
+  if(x < -1000000000){
 	  x = last_x;
   }
+
 
   //updating the hitboxes
   update_hitboxes();
