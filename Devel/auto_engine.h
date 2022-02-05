@@ -27,6 +27,7 @@
 #define STANDARD_COLOR {0xFF,0xFF,0xFF}
 
 
+//IMPORTANT : ALWAYS SET RENDERER!!!!!!!!!!!!!!!!!!!!!!!!
 
 class Auto_Engine : public Object_Engine{
 
