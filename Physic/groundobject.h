@@ -33,6 +33,7 @@ public:
   //max speed for falling
   float has_max_fall_speed = false;
   float max_fall_speed = STANDARD_MAX_FALL_SPEED;
+  float ground_friction = STANDARD_GROUND_FRICTION;
 
   //constructors
 
@@ -121,7 +122,7 @@ void GroundObject::fall(){
         else{
           //else bounce, but not jumping
           y_vel = -y_vel;
-          y_vel += STANDARD_GROUND_FRICTION;
+          y_vel += ground_friction;
           is_jumping = false;
 
         }
