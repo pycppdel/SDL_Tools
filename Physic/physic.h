@@ -22,4 +22,8 @@
 #include "testbox.h"
 #endif
 
+#ifndef __SDL_TOOLS_STATIC_OBJECT__
+#include "static_object.h"
+#endif
+
 #endif
