@@ -72,6 +72,32 @@ public:
 
 };
 
+//class for texturalized ground object
+class TStaticObject : public StaticObject, public TextureObject_For_Physic{
+
+protected:
+
+  SDL_Rect standard_rect;
+  SDL_Color standard_color = STANDARD_TGROUNDOBJECT_COLOR;
+
+public:
+
+  SDL_Texture* texture = NULL;
+
+  //for drawing purpose
+  float angle = .0F;
+
+  TStaticObject(int, int, int, int);
+
+  virtual void draw(void*);
+  virtual void update_position();
+  virtual void change_texture(SDL_Texture*);
+  virtual void create_texture(char*, SDL_Renderer*);
+
+
+
+};
+
 TextureObject_For_Physic::TextureObject_For_Physic(){
 
 }
@@ -153,6 +179,52 @@ void TGroundObject::create_texture(char* path, SDL_Renderer* r){
 
 }
 
+TStaticObject::TStaticObject(int x, int y, int w, int h) : StaticObject(x, y, w, h), TextureObject_For_Physic(){
+
+}
+
+
+void TStaticObject::draw(void* data){
+
+  update_position();
+
+  //checking for texture
+  if (texture != NULL){
+
+    SDL_RenderCopyEx((SDL_Renderer*)data, texture, NULL, &standard_rect, angle, NULL, SDL_FLIP_NONE);
+
+  }
+  else{
+    SDL_SetRenderDrawColor((SDL_Renderer*)data, standard_color.r, standard_color.g, standard_color.b, 0x0);
+    //drawing standard
+    SDL_RenderFillRect((SDL_Renderer*)data, &standard_rect);
+
+  }
+
+}
+
+void TStaticObject::update_position(){
+  //setting standard_rect
+  standard_rect.x = x;
+  standard_rect.y = y;
+  standard_rect.w = width;
+  standard_rect.h = height;
+
+}
+
+void TStaticObject::change_texture(SDL_Texture* t){
+
+  texture = t;
+
+}
+
+void TStaticObject::create_texture(char* path, SDL_Renderer* r){
+
+  SDL_Surface* s = IMG_Load(path);
+  texture = SDL_CreateTextureFromSurface(r, s);
+  SDL_FreeSurface(s);
+
+}
 
 //same for static object
 
