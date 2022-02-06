@@ -30,9 +30,14 @@ public:
   float angle = .0F;
 
   TextureObject_For_Physic();
+  virtual ~TextureObject_For_Physic();
+
 
   virtual void update_position()=0;
   virtual void draw(void*)=0;
+  virtual void change_texture(SDL_Texture*)=0;
+  virtual void create_texture(char*, SDL_Renderer*)=0;
+
 
 
 
@@ -60,12 +65,25 @@ public:
 
   virtual void draw(void*);
   virtual void update_position();
+  virtual void change_texture(SDL_Texture*);
+  virtual void create_texture(char*, SDL_Renderer*);
 
 
 
 };
 
 TextureObject_For_Physic::TextureObject_For_Physic(){
+
+}
+
+TextureObject_For_Physic::~TextureObject_For_Physic(){
+
+  if (texture != NULL){
+
+    //delete
+    SDL_DestroyTexture(texture);
+
+  }
 
 }
 
@@ -118,6 +136,20 @@ void TGroundObject::update_position(){
   standard_rect.y = y;
   standard_rect.w = width;
   standard_rect.h = height;
+
+}
+
+void TGroundObject::change_texture(SDL_Texture* t){
+
+  texture = t;
+
+}
+
+void TGroundObject::create_texture(char* path, SDL_Renderer* r){
+
+  SDL_Surface* s = IMG_Load(path);
+  texture = SDL_CreateTextureFromSurface(r, s);
+  SDL_FreeSurface(s);
 
 }
 
