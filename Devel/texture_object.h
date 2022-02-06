@@ -88,6 +88,7 @@ public:
   float angle = .0F;
 
   TStaticObject(int, int, int, int);
+  TStaticObject(int, int, int, int, SDL_Texture*);
 
   virtual void draw(void*);
   virtual void update_position();
@@ -181,6 +182,10 @@ void TGroundObject::create_texture(char* path, SDL_Renderer* r){
 
 TStaticObject::TStaticObject(int x, int y, int w, int h) : StaticObject(x, y, w, h), TextureObject_For_Physic(){
 
+}
+
+TStaticObject::TStaticObject(int x, int y, int w, int h, SDL_Texture* text) : StaticObject(x, y, w, h), TextureObject_For_Physic(){
+  texture = text;
 }
 
 
