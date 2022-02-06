@@ -22,6 +22,7 @@ protected:
 
   SDL_Rect standard_rect;
   SDL_Color standard_color = STANDARD_TGROUNDOBJECT_COLOR;
+  bool texture_loaded = false;
 
 public:
 
@@ -125,6 +126,7 @@ TGroundObject::TGroundObject(int x, int y, int w, int h, int ground, SDL_Texture
 
   //setting texture
   texture = t;
+  texture_loaded = true;
 
 }
 
@@ -143,7 +145,7 @@ void TGroundObject::draw(void* data){
   update_position();
 
   //checking for texture
-  if (texture != NULL){
+  if (texture_loaded){
 
     SDL_RenderCopyEx((SDL_Renderer*)data, texture, NULL, &standard_rect, angle, NULL, SDL_FLIP_NONE);
 
@@ -169,6 +171,7 @@ void TGroundObject::update_position(){
 void TGroundObject::change_texture(SDL_Texture* t){
 
   texture = t;
+  texture_loaded = true;
 
 }
 
@@ -178,6 +181,8 @@ void TGroundObject::create_texture(char* path, SDL_Renderer* r){
   texture = SDL_CreateTextureFromSurface(r, s);
   SDL_FreeSurface(s);
 
+  texture_loaded = true;
+
 }
 
 TStaticObject::TStaticObject(int x, int y, int w, int h) : StaticObject(x, y, w, h), TextureObject_For_Physic(){
@@ -186,6 +191,7 @@ TStaticObject::TStaticObject(int x, int y, int w, int h) : StaticObject(x, y, w,
 
 TStaticObject::TStaticObject(int x, int y, int w, int h, SDL_Texture* text) : StaticObject(x, y, w, h), TextureObject_For_Physic(){
   texture = text;
+  texture_loaded = true;
 }
 
 
@@ -193,8 +199,9 @@ void TStaticObject::draw(void* data){
 
   update_position();
 
-  //checking for texture
-  if (texture != NULL){
+
+  //checking for textur
+  if (texture_loaded){
 
     SDL_RenderCopyEx((SDL_Renderer*)data, texture, NULL, &standard_rect, angle, NULL, SDL_FLIP_NONE);
 
@@ -220,6 +227,7 @@ void TStaticObject::update_position(){
 void TStaticObject::change_texture(SDL_Texture* t){
 
   texture = t;
+  texture_loaded = true;
 
 }
 
@@ -228,6 +236,8 @@ void TStaticObject::create_texture(char* path, SDL_Renderer* r){
   SDL_Surface* s = IMG_Load(path);
   texture = SDL_CreateTextureFromSurface(r, s);
   SDL_FreeSurface(s);
+
+  texture_loaded = true;
 
 }
 
