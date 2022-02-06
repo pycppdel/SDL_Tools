@@ -36,6 +36,10 @@
 #include "texture_loader.h"
 #endif
 
+#ifndef __SDL_TOOLS_TEXTURE_OBJECT__
+#include "texture_object.h"
+#endif
+
 
 
 #endif

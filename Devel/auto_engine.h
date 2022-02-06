@@ -51,7 +51,7 @@ public:
   Auto_Engine(std::vector<PhysicObject*>&, Camera*, SDL_Color&);
   Auto_Engine(std::vector<PhysicObject*>&, Camera*, SDL_Color&, SDL_Renderer*);
 
-  virtual void execute_all();
+  virtual void execute_all(void*);
   void set_renderer(SDL_Renderer*);
   void set_color(SDL_Color&);
 
@@ -106,7 +106,7 @@ Auto_Engine::Auto_Engine(std::vector<PhysicObject*>& obj, Camera* cam, SDL_Color
 
 }
 
-void Auto_Engine::execute_all(){
+void Auto_Engine::execute_all(void* rend){
 
   if(auto_load){
     load_unload();
@@ -116,7 +116,7 @@ void Auto_Engine::execute_all(){
 
   if(intern_renderer != NULL){
     SDL_SetRenderDrawColor(intern_renderer, background_color.r, background_color.g, background_color.b, 0x0);
-    draw_loaded_objects((void*)intern_renderer);
+    draw_loaded_objects(rend);
     SDL_SetRenderDrawColor(intern_renderer, background_color.r, background_color.g, background_color.b, 0x0);
 
   }

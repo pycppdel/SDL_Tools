@@ -45,7 +45,7 @@ SDL_Color red = {0xFF, 0, 0};
 Timer framer(60, frame, NULL);
 
 
-Testbox test(10, 0, 50, 50, 800, black);
+Testbox test(10, 0, 10, 10, 800, black);
 
 Testbox Block(300, 100, 100, 100, 800, blue);
 Testbox Block2(400, 100, 100, 100, 800, red);
@@ -65,9 +65,7 @@ void add_block(int x, int y, int w, int h){
 
 
     box->add_hitbox(0, 0, w, h);
-    box->left_moveable = true;
-    box->right_moveable = true;
-
+    box->can_fall = false;
   boxes[b_counter++] = (*box);
   auto_engine.register_object((PhysicObject*)box);
 
@@ -105,7 +103,7 @@ public:
 
     test.gravity = .2F;
     //test.add_hitbox(0, 0, 100, 100);
-    test.add_hitbox(0, 0, 50, 50);
+    test.add_hitbox(0, 0, 10, 10);
 
     Block.can_fall = false;
     Block.add_hitbox(0, 0, 100, 100);
@@ -134,19 +132,12 @@ public:
     int last_x = 1200;
     int last_y = 200;
     for(int i = 0; i < 800; i++){
-
-      add_block(rand()%600+200, rand()%600, 10, 10);
-      if (rand()%4 == 2){
-        boxes[b_counter].can_bounce = true;
-      }
+      int y_pos = rand()%10000;
+      y_pos *= -1;
+      add_block(rand()%800, y_pos, rand()%100+50, rand()%100+50);
     }
-    auto_engine.auto_load = false;
-    auto z = auto_engine.get_unloaded_objects();
-    for(PhysicObject* obj : (*z)){
 
-      auto_engine.load_object(obj);
 
-    }
 
 
 
