@@ -32,6 +32,7 @@ protected:
 
 public:
 
+  Frame* next_frame = NULL;
 
   //constructors
   Frame();
@@ -63,7 +64,7 @@ Frame::Frame(std::vector<PhysicObject*>& objs, SDL_Event* evt, SDL_Renderer* r, 
 }
 
 Frame::~Frame(){
-  
+
 }
 
 

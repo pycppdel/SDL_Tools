@@ -22,7 +22,7 @@ protected:
 
 public:
 
-  General_Frame* next_frame = NULL;
+  General_Frame* next_general_frame = NULL;
 
   General_Frame();
   General_Frame(std::vector<PhysicObject*>&);
