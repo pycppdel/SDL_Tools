@@ -26,6 +26,8 @@
 #define NO_TOLERANCE 0
 #define STABILITY_FACTOR 2
 
+#include <iostream>
+
 class Object_Engine{
 
 private:
@@ -42,6 +44,9 @@ protected:
 
   virtual bool check_x_hit(Hitbox&, Hitbox&);
   virtual bool check_y_hit(Hitbox&, Hitbox&);
+
+  virtual void insert_ordered_loaded(PhysicObject*);
+  virtual void insert_ordered_unloaded(PhysicObject*);
 
 public:
 
@@ -157,7 +162,8 @@ void Object_Engine::register_object(PhysicObject* obj){
 
   //if the object was registered before, unregister it
   unregister_object(obj);
-  unloaded_objects.push_back(obj);
+
+  insert_ordered_unloaded(obj);
 
 }
 
@@ -220,7 +226,8 @@ void Object_Engine::load_object(PhysicObject* obj){
 
     //insert into loaded
     unloaded_objects.erase(it);
-    loaded_objects.push_back(obj);
+
+    insert_ordered_loaded(obj);
 
   }
 
@@ -660,6 +667,58 @@ std::vector<PhysicObject*>* Object_Engine::get_unloaded_objects(){
 
   //gives back the unloaded objects
   return &unloaded_objects;
+
+}
+
+void Object_Engine::insert_ordered_loaded(PhysicObject* obj){
+
+  std::vector<PhysicObject*>::iterator ite = loaded_objects.begin();
+
+  //could be slow
+  while (ite != loaded_objects.end()){
+
+    ite++;
+    try{
+      int layer = (*ite)->layer;
+
+      if(obj->layer <= layer){
+        break;
+      }
+
+    }
+    catch(...){
+
+    }
+
+  }
+
+  loaded_objects.insert(ite, obj);
+
+}
+
+void Object_Engine::insert_ordered_unloaded(PhysicObject* obj){
+
+  std::vector<PhysicObject*>::iterator it = unloaded_objects.begin();
+
+  //could be slow
+  while (it != unloaded_objects.end()){
+
+    it++;
+    try{
+      int layer = (*it)->layer;
+
+      if(obj->layer <= layer){
+        break;
+      }
+
+    }
+    catch(...){
+
+    }
+
+  }
+
+  unloaded_objects.insert(it, obj);
 
 }
 

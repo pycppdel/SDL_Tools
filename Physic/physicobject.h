@@ -23,6 +23,8 @@
 #define STANDARD_GROUND_BOUNCE_STOP 8.0F
 #define STANDARD_Y_VEL_HIT_INVERTER 0.7F
 
+#define DEFAULT_LAYER 1
+
 class PhysicObject{
 
 
@@ -91,6 +93,8 @@ public:
   //variables for movability
   bool left_moveable = false, right_moveable = false;
 
+  int layer = DEFAULT_LAYER;
+
   //all hitboxes from the object
   std::vector<Hitbox> hitboxes;
 
@@ -111,6 +115,8 @@ public:
   virtual void set_boundaries(int, int);
 
   virtual void if_loaded_on_frame(); //only gets called if the object is loaded onto the screen
+
+  virtual void set_layer(int);
 
 
 };
@@ -441,6 +447,12 @@ void PhysicObject::if_loaded_on_frame(){
 
 
   //needs to be overwritten
+
+}
+
+void PhysicObject::set_layer(int lay){
+
+  layer = lay;
 
 }
 
