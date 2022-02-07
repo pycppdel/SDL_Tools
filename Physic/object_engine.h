@@ -252,7 +252,8 @@ void Object_Engine::unload_object(PhysicObject* obj){
 
     //insert into loaded
     loaded_objects.erase(it);
-    unloaded_objects.push_back(obj);
+
+    insert_ordered_unloaded(obj);
 
   }
 
