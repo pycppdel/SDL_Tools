@@ -132,9 +132,8 @@ public:
     int last_x = 1200;
     int last_y = 200;
     for(int i = 0; i < 800; i++){
-      int y_pos = rand()%10000;
-      y_pos *= -1;
-      add_block(rand()%800, y_pos, rand()%100+50, rand()%100+50);
+      int y_pos = rand()%800;
+      add_block(rand()%800, y_pos, rand()%100, rand()%100);
     }
 
 
