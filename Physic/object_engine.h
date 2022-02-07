@@ -28,6 +28,27 @@
 
 #include <iostream>
 
+class PhysicLayerComparator : public Comparator<PhysicObject*, PhysicObject*>{
+
+public:
+
+  PhysicLayerComparator();
+  int compare(PhysicObject*, PhysicObject*);
+
+};
+
+PhysicLayerComparator::PhysicLayerComparator(){
+
+}
+
+int PhysicLayerComparator::compare(PhysicObject* a, PhysicObject* b){
+
+  if(a->layer < b->layer)return -1;
+  if(a->layer > b->layer)return 1;
+  return 0;
+
+}
+
 class Object_Engine{
 
 private:
@@ -39,7 +60,7 @@ private:
 
   //pointer to the relevant camera
   Camera* camera_ptr = NULL;
-  
+
 protected:
 
   virtual bool check_x_hit(Hitbox&, Hitbox&);
@@ -47,7 +68,8 @@ protected:
 
   virtual void insert_ordered_loaded(PhysicObject*);
   virtual void insert_ordered_unloaded(PhysicObject*);
-  virtual void resort_layer_wise();
+
+  PhysicLayerComparator layer_comparator;
 
 public:
 
@@ -79,6 +101,8 @@ public:
   virtual void interact();
   //loads in via camera and the tolerance, also unloads object that are not in the focus
   virtual void load_unload();
+  //resorts the layers
+  virtual void resort_layer_wise();
 
   //gives back the list of all loaded objects
   std::vector<PhysicObject*>* get_loaded_objects();
@@ -739,6 +763,8 @@ bool Object_Engine::check_y_hit(Hitbox& obj_h, Hitbox& counter_h){
 
 void Object_Engine::resort_layer_wise(){
 
+  insertion_sort(&loaded_objects, (Comparator<PhysicObject*, PhysicObject*>*)&layer_comparator);
+  insertion_sort(&unloaded_objects, (Comparator<PhysicObject*, PhysicObject*>*)&layer_comparator);
 
 }
 
