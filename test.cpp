@@ -152,12 +152,12 @@ public:
 
     if (state[SDL_SCANCODE_LEFT]){
 
-      test.move_left(10);
+      test.move_left(8);
 
     }
     if (state[SDL_SCANCODE_RIGHT]){
 
-      test.move_right(10);
+      test.move_right(8);
 
     }
     if(state[SDL_SCANCODE_SPACE] && jump_count < 2){
@@ -229,7 +229,7 @@ for(int z = 0; z < b_counter; z++){
 void draw(){
 
   SDL_RenderClear(renderer);
-  auto_engine.execute_all();
+  auto_engine.execute_all((void*)renderer);
   SDL_RenderPresent(renderer);
 
 }

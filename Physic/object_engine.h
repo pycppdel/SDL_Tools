@@ -73,6 +73,7 @@ protected:
 
 public:
 
+  bool auto_layer_load = false;
   //load tolerance for loading and unloading objects
   int x_load_tolerance = NO_TOLERANCE;
   int y_load_tolerance = NO_TOLERANCE;
@@ -623,6 +624,12 @@ void Object_Engine::interact(){
 
     }
 
+
+  }
+
+  if(auto_layer_load){
+
+    resort_layer_wise();
 
   }
 
