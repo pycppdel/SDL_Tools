@@ -1,6 +1,10 @@
 #ifndef __SDL_TOOLS__
 #define __SDL_TOOLS__
 
+#ifndef __SDL_TOOLS_ALGO__
+#include "Algorithms/SDL_TOOLS_algo.h"
+#endif
+
 #ifndef __SDL_TOOLS_CAMERA__
 #include "camera.h"
 #endif
@@ -24,5 +28,6 @@
 #ifndef __SDL_TOOLS_DEVEL__
 #include "Devel/devel.h"
 #endif
+
 
 #endif
