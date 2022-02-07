@@ -1,5 +1,6 @@
 #include "sorts.h"
 #include <iostream>
+#include <ctime>
 
 class Integer : public Comparator<int, int>{
 
@@ -32,11 +33,19 @@ void print(std::vector<int>& v){
 }
 
 int main(){
-  std::vector<int> val = {3, 5, 6, 3, 2, 6};
+
+  srand(time(NULL));
+  std::vector<int> val;
+
+  for(int i = 0; i < 100; i++){
+
+    val.push_back(rand()%400);
+
+  }
 
   Comparator<int, int>* comp = new Integer();
 
-  merge_sort<int>(0, val.size(), &val, comp);
+  insertion_sort(&val, comp);
 
   print(val);
 

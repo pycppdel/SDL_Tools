@@ -39,10 +39,7 @@ private:
 
   //pointer to the relevant camera
   Camera* camera_ptr = NULL;
-
-  void merge_sort(int, int, std::vector<PhysicObject*>*);
-  void merge(int, int, int, int, std::vector<PhysicObject*>*);
-
+  
 protected:
 
   virtual bool check_x_hit(Hitbox&, Hitbox&);
@@ -741,18 +738,6 @@ bool Object_Engine::check_y_hit(Hitbox& obj_h, Hitbox& counter_h){
 }
 
 void Object_Engine::resort_layer_wise(){
-
-
-}
-
-void Object_Engine::merge_sort(int from, int to, std::vector<PhysicObject*>* cont){
-
-
-
-}
-
-void Object_Engine::merge(int start1, int end1, int start2, int end2, std::vector<PhysicObject*>* cont){
-
 
 
 }

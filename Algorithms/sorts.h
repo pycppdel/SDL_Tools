@@ -53,8 +53,6 @@ void merge(int start1, int end1, int start2, int end2, std::vector<T>* vec, Comp
 
   int insert_place = (start1 < start2) ? start1 : start2;
 
-  std::cout << start1 << " " << end1 << " " << start2 << " " << end2 << std::endl;
-
   std::vector<T> help;
 
   while (start1 < end1 && start2 < end2){
@@ -109,6 +107,46 @@ void merge(int start1, int end1, int start2, int end2, std::vector<T>* vec, Comp
 
 
 
+
+}
+
+template<class T>
+void insertion_sort(std::vector<T>* vec, Comparator<T, T>* comp){
+
+  //very inefficient
+
+  int start = 0;
+  int current = 1;
+
+  while (current < vec->size()){
+
+    T val1 = (*vec)[current];
+
+    for(int i = 0; i < current; i++){
+
+      T v = (*vec)[i];
+
+      if (comp->compare(val1, v) <= 0){
+
+        (*vec)[i] = val1;
+
+        for(int r = i+1; r < current; r++){
+
+          T save = (*vec)[r];
+          (*vec)[r] = v;
+          v = save;
+
+        }
+
+        (*vec)[current] = v;
+        break;
+      }
+
+    }
+
+    current++;
+
+  }
 
 }
 
